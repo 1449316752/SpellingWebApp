@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <script src="./js/vue.js"></script>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script src="./js/axios-0.18.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        网页
+        <button v-on:click="showNextWord()">下一个</button>
+        <div>
+            {{word.word}} : {{word.tranCn}}
+        </div>
+        <div v-on:keyup.enter="showNextWord()">
+            <input type="text" v-model="wordName">{{info}}
+        </div>
+
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                words:null,
+                word:null,
+                wordName:null,
+                info:"",
+                index:0
+            },
+            created(){
+              this.getWordList();
+            },
+            watch:{
+                wordName(newValue,oldValue){
+                    if (newValue === null ) return
+                    const length = this.wordName.length
+                    if (this.word.word.substring(0,length) !== this.wordName){
+                        this.wordName = ""
+                        return
+                    }
+                    this.info = ""
+                    this.isEqual();
+                }
+            },
+            methods:{
+                getWordList(){
+                    axios.get("/wordList").then((res)=>{
+                        console.log(res);
+                        this.words = res.data.data;
+                        this.word = this.words[0];
+                    })
+                },
+                showNextWord(){
+                    this.index++;
+                    this.word = this.words[this.index]
+                    this.wordName = ""
+                },
+                isEqual(){
+                    if(this.word.word === this.wordName){
+                        this.info = "对了"
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
