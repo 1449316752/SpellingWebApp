@@ -1,36 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>主页</title>
     <script src="./js/vue.js"></script>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script src="./js/axios-0.18.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.2/particles.min.js"></script>
+    <script>
+        window.onload = function () {
+            //背景js-
+            Particles.init({
+                selector: '.background',
+                maxParticles: 200, //粒子数
+                speed: 0.2,
+                color: "#fae3d9",
+                connectParticles: true
+            });
+            //音频按钮js
+            const audio1 = document.getElementById('audio1');
+            const audio2 = document.getElementById('audio2')
+            const playButton = document.getElementById('img_button');
+            console.log("ssss"+audio1)
+            playButton.addEventListener('click', () => {
+                if (audio1.paused) {
+                    //audio1.play();
+
+                    audio2.play();
+                } else {
+                    audio1.pause();
+                }
+            });
+            audio1.style.display = 'none';
+            audio2.style.display = 'none';
+        };
+    </script>
+    <style>
+        html,body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(288deg, #FFB6B9 0%, #FFB6B9 35%, #FAE3D9 calc(35% + 1px), #FAE3D9 45%, #BBDED6 calc(45% + 1px), #BBDED6 65%, #61C0BF calc(65% + 1px), #61C0BF 100%);
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .background {
+            position: absolute;
+            display:
+                    block;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        .card {
+            box-sizing: border-box;
+            width: 90%;
+            height: 90%;
+            background: rgba(1, 252, 235, 0);
+            border: 1px solid white;
+            box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+            backdrop-filter: blur(6px);
+            border-radius: 17px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            font-weight: bolder;
+            color: black;
+        }
+        .card:hover {
+            border: 1px solid black;
+            transform: scale(1.05);
+        }
+        .card:active {
+            transform: scale(0.95) rotateZ(1.7deg);
+        }
+
+        #input1 {
+            color: rgba(255, 255, 255, 0.919);
+            font-size: 40px;
+            outline: none;
+            background-color: rgba(0, 0, 0, 0);
+            caret-color: rgba(0, 0, 0, 0);
+            position: absolute;
+            z-index: 2;
+        }
+        #input2 {
+            color: rgb(255, 255, 255);
+            font-size: 40px;
+            outline: none;
+            background-color: rgba(0, 0, 0, 0);
+            caret-color: rgba(0, 0, 0, 0);
+            position: absolute;
+            z-index: 1;
+        }
+        #text1,#div_audio {
+            height: 200px;
+            font-size: 40px;
+            z-index: 2;
+        }
+        #img_button{
+            width: 35px;
+            height: 35px;
+        }
+
+        .container2{
+            z-index: 4;
+        }
+        .card2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            width: 500px;
+            flex-direction: column;
+            gap: 35px;
+            background: #379c97;
+            box-shadow: 16px 16px 32px #c8c8c8,
+            -16px -16px 32px #fefefe;
+            border-radius: 8px;
+        }
+        .login {
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+            font-weight: bold;
+            font-size: x-large;
+        }
+        .inputBox {
+            position: relative;
+            width: 250px;
+        }
+        .inputBox input {
+            width: 100%;
+            padding: 10px;
+            outline: none;
+            border: none;
+            color: #000;
+            font-size: 1em;
+            background: transparent;
+            border-left: 2px solid #000;
+            border-bottom: 2px solid #000;
+            transition: 0.1s;
+            border-bottom-left-radius: 8px;
+        }
+        .inputBox span {
+            margin-top: 5px;
+            position: absolute;
+            left: 0;
+            transform: translateY(-4px);
+            margin-left: 10px;
+            padding: 10px;
+            pointer-events: none;
+            font-size: 12px;
+            color: #000;
+            text-transform: uppercase;
+            transition: 0.5s;
+            letter-spacing: 3px;
+            border-radius: 8px;
+        }
+        .inputBox input:valid~span,
+        .inputBox input:focus~span {
+            transform: translateX(113px) translateY(-15px);
+            font-size: 0.8em;
+            padding: 5px 10px;
+            background: #000;
+            letter-spacing: 0.2em;
+            color: #fff;
+            border: 2px;
+        }
+        .inputBox input:valid,
+        .inputBox input:focus {
+            border: 2px solid #000;
+            border-radius: 8px;
+        }
+        .enter {
+            height: 40px;
+            width: 80px;
+            border-radius: 5px;
+            border: 2px solid #000;
+            cursor: pointer;
+            background-color: transparent;
+            transition: 0.5s;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 1em;
+        }
+        .enter:hover {
+            background-color: rgb(0, 0, 0);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div id="app">
-        网页
-        <button v-on:click="showNextWord()">下一个</button>
-        <div>
-            {{word.word}} : {{word.tranCn}}
-        </div>
-        <div v-on:keyup.enter="showNextWord()">
-            <input type="text" v-model="wordName">{{info}}
-        </div>
-
+<canvas class="background"></canvas>
+<div class="card" id="app">
+    <div id="text1">{{word.word}} : {{word.tranCn}}</div>
+    <div id="div_audio">
+        <audio id="audio1" autoplay preload="auto" v-bind:src="wordMedia"></audio>
+        <audio id="audio2" autoplay preload="auto" v-bind:src="tranCnMedia"></audio>
+        <img id="img_button" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAU5SURBVHgB7VpNUttIFH7dMsVUVp4TwJxg7KrZx5xgmBMgG5jiZwEsZwWcIMkiwVXYRnMCyG52YfapwjlByA1YpYBY/fJeGxOpu2U7tn7sKn8LkFstS5/7637vfS2ABRZYYIE5goCC0Wjs+MITf6ISdypUp0HQvIUMUYKC4PuHZVl6OKbDQ0T6KxBESazS0RpkiEII+/7Oqrf0eElEK9F2klsNMoaEnLH59/6GLIkbRKxAAciVcGNr9xUqFdBhGQpCLpLuS1heFjWqUWRO2N/aqUkQTLawUY0iU0k3tvaOiewHcEhYgOgCigByRiYjrCVcEhcIWHOdp9F+02mfHTa2dk6mSQU4tEHpvgI9uB03fqc+wlrCS+IDukIMwh3F2/pFu3kIU4J/VLn0cMMKolX/M6tpnOtSJby5vXegJYywap5jCasQq53zZgApQJbUevw+eNLY3LsYdd1ISeuMSH71Qcqhiw4ReklSrbnOsYRVuHwSBK/vIEsI9Ik0dNrv6kldhhLmuAnwQPLzYBTQ3UgShlOS8GtIGar3IhClhw1aAeKhjklv7X7qtM6c90yUdJ8sTD7XEG61hBNuPC1YLRetsyqp51/H6WOe467rnIR54YEpyPJDkISrWVc+DFKPTyq6MprLVIg457OTsETYgEnAEgY44ofIfL5GoL4t11lR0TYuRJ4GLgbnHBZCrMbmpJYnj1h+JAbwN3fXpcCK6pGKExTDz0Xk6k9JzjOkEAf07zrWBmNACA7s+ZPldUQKuKQnOOYKq06VVlLfoNW8RoMcDVRNJycR5F4e/iSi60hZUKXlkukAAsL3RhOF1Pv1aMNME6Z52DXbuBAxR20ADlVWoydfxq+fYYSiZy1GwKNWundGEJ52lqyNfH6mCQfn55yOssdlrB/iIGmUKSZ+in+Op7mzPoehvzLjG6O57Hlfa67+5AVa02Bzf39lcDzzhBmq94uVraGQTveEQqoVTcLHx18Hx3NBWIdEcy4LueLqGwq0wyd6z/KfC8JpYi4I60JAGDU2qi8wAeaCsJS2eyJQdZ19QVlz21v2Pv84P+PQo+sJy74JwxfXrv6IctVsa799+6yGmSbs+9sV9scsy4jczqTcngqG36OfzWxtpgnLpdKlTZYrN3Xq6s/JiGkeIor5IUzkHH42HCWViWah0P8O9X+sD8wwYvbNk8Xbbp9dJfUXUljlo1IT1MNQ0OaX9q8V1kGFR6MsXt5Yt7xwPdfjanA6HooScErRni+mL6pQMe40JmMgo4Bv0mm9O4WU0OmM9rF1IeHR5rrxhEooy+BzjjDapth40AtM3xBPrGYygH6TwFjcaK5fswti9XV9gbZL0KpQxgd5w7wNkmSVpokkOznsodOMT5zD/f0fnFya9IuzD0UPNPU+kgusINrauQGnnYyJL8cM3XnotJonNEqBTu2kvV8UAwd8BDMssKxfEekVMuSPIEVwCKIYa5eICFeddvMk6bqRe0tPv1QAY+Bp+9O1i3fY2N5dV99wLTVzXqqyuQXE8zYMl+tDL4MUwYpQold1+FA/JE7hA1KANuwi9+E1p906WxtlJ6eeeAx8KNtM0yhTsnsx7l7u0PsQMdpU/00BrvGPPO6ec6Zv4g2ReD9mK3HNK3q0meZ6ps+UaWqpJY7wV5LETbJ5IPNcOqDcV1utLtIFIJfigVdmnm9TxfWUkGu1xBLXxYBlrOeH3MtDLgZUD6tFSbyQenggcTNfF+5QlipGv62SIbo3H/+rVv74QqVomci/VyH80+1+LEzuCyywwAIzh++GoUPdUk5hZAAAAABJRU5ErkJggg==">
     </div>
+    <input id="input1" type="text" v-model="wordName" v-on:keyup.enter="showNextWord()">
+    <input id="input2" tptle="text" v-bind:placeholder="word.word">
+    <div class="container2" v-if="!isLogin">
+        <div class="card2">
+            <a class="login">LOGIN</a>
+            <div class="inputBox">
+                <input type="text" required="required" v-model="user.username">
+                <span class="user">username</span>
+            </div>
+            <div class="inputBox">
+                <input type="password" required="required" v-model="user.password">
+                <span>password</span>
+            </div>
+            <div>
+                <button class="enter" v-on:click="loginSubmit()">登录</button>&nbsp;&nbsp;<button class="enter">立即使用</button>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
         new Vue({
             el:"#app",
             data:{
+                user:{
+                  u_id:null,
+                  username:"root",
+                  password:"123",
+                  level:0
+                },
                 words:null,
-                word:null,
+                word:{
+                    w_id:null,
+                    word:null,
+                    tranCn:null,
+                    media:null
+                },
                 wordName:null,
+                wordMedia:null,
+                tranCnMedia:null,
                 info:"",
                 index:0
             },
-            created(){
-              this.getWordList();
+            computed:{
+                isLogin:function (){
+                    return this.user.u_id != null;
+                }
             },
             watch:{
                 wordName(newValue,oldValue){
@@ -42,20 +267,46 @@
                     }
                     this.info = ""
                     this.isEqual();
+                },
+                isLogin(newValue,oldValue){
+                    if (newValue != null){
+                        this.getWordList();
+                    }
                 }
             },
+            created(){
+              console.log(this.isLogin)
+            },
             methods:{
+                loginSubmit(){
+                    if (this.user.u_id !== null) return
+                    if (this.user.username !== null && this.user.password !== null){
+                        axios.post("/user",this.user).then((res)=>{
+                            if (res.data.code === 20041){
+                                this.user.u_id = res.data.data.u_id
+                                console.log("登录成功")
+                            }else {
+                                console.log("登录失败")
+                            }
+                        })
+                    }
+                },
                 getWordList(){
                     axios.get("/wordList").then((res)=>{
                         console.log(res);
                         this.words = res.data.data;
                         this.word = this.words[0];
+                        this.wordMedia = "https://dict.youdao.com/dictvoice?audio="+this.word.word+"&amp;type=2"
+                        const list = this.word.tranCn.split('/[,，；;]/');
+                        console.log(list[0])
+                        this.tranCnMedia = "https://dict.youdao.com/dictvoice?audio="+encodeURIComponent(list[0])+"&le=zh";
                     })
                 },
                 showNextWord(){
                     this.index++;
                     this.word = this.words[this.index]
                     this.wordName = ""
+                    this.wordMedia = "https://dict.youdao.com/dictvoice?audio="+this.word.word+"&amp;type=2"
                 },
                 isEqual(){
                     if(this.word.word === this.wordName){
@@ -65,5 +316,6 @@
             }
         })
     </script>
+
 </body>
 </html>

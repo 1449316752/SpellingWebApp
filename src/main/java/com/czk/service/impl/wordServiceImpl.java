@@ -1,5 +1,6 @@
 package com.czk.service.impl;
 
+import com.czk.dao.wordsDao;
 import com.czk.domain.Word;
 import com.czk.service.wordService;
 import org.apache.commons.io.FileUtils;
@@ -18,8 +19,15 @@ import java.util.List;
 @Service
 public class wordServiceImpl implements wordService {
 
-
+    @Autowired
+    private wordsDao wordsDao;
     @Override
+    public List<Word> getWordList() {
+        return wordsDao.getWordList();
+    }
+
+
+    /*@Override
     public List<Word> getWordList() {
         System.out.println("Service");
         File file = null;
@@ -53,5 +61,5 @@ public class wordServiceImpl implements wordService {
             list.add(new Word(w_id,word,tranCn));
         }
         return list;
-    }
+    }*/
 }
