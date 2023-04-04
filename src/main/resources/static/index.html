@@ -12,8 +12,8 @@
             //背景js-
             Particles.init({
                 selector: '.background',
-                maxParticles: 200, //粒子数
-                speed: 0.2,
+                maxParticles: 100, //粒子数
+                speed: 0.5,
                 color: "#fae3d9",
                 connectParticles: true
             });
@@ -21,12 +21,10 @@
             const audio1 = document.getElementById('audio1');
             const audio2 = document.getElementById('audio2')
             const playButton = document.getElementById('img_button');
-            console.log("ssss"+audio1)
             playButton.addEventListener('click', () => {
                 if (audio1.paused) {
-                    //audio1.play();
-
-                    audio2.play();
+                    audio1.play()
+                    setTimeout(()=> audio2.play(),audio1.duration*1000+100)
                 } else {
                     audio1.pause();
                 }
@@ -50,8 +48,7 @@
 
         .background {
             position: absolute;
-            display:
-                    block;
+            display: block;
             top: 0;
             left: 0;
             z-index: 0;
@@ -60,11 +57,10 @@
             box-sizing: border-box;
             width: 90%;
             height: 90%;
-            background: rgba(1, 252, 235, 0);
+            background: rgb(169, 175, 174);
             border: 1px solid white;
-            box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
             backdrop-filter: blur(6px);
-            border-radius: 17px;
+            border-radius: 35px;
             text-align: center;
             cursor: pointer;
             transition: all 1s;
@@ -74,6 +70,8 @@
             user-select: none;
             font-weight: bolder;
             color: black;
+            box-shadow: inset -18px 18px 19px #303030,
+            inset 18px -18px 19px #5e5e5e;
         }
         .card:hover {
             border: 1px solid black;
@@ -91,6 +89,7 @@
             caret-color: rgba(0, 0, 0, 0);
             position: absolute;
             z-index: 2;
+            width: 400px;
         }
         #input2 {
             color: rgb(255, 255, 255);
@@ -100,15 +99,23 @@
             caret-color: rgba(0, 0, 0, 0);
             position: absolute;
             z-index: 1;
+            width: 400px;
         }
-        #text1,#div_audio {
+        #text1{
             height: 200px;
+            width: 50%;
             font-size: 40px;
             z-index: 2;
+        }
+        #div_audio{
+            z-index: 1;
         }
         #img_button{
             width: 35px;
             height: 35px;
+            position: fixed;
+            left: 66%;
+            top: 48%;
         }
 
         .container2{
@@ -199,19 +206,79 @@
             background-color: rgb(0, 0, 0);
             color: white;
         }
+
+        .burger {
+            position: relative;
+            left: 50%;
+            top: -40%;
+            width: 40px;
+            height: 30px;
+            background: transparent;
+            cursor: pointer;
+            display: block;
+        }
+        .burger input {
+            display: none;
+        }
+        .burger span {
+            display: block;
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        .burger span:nth-of-type(1) {
+            top: 0px;
+            transform-origin: left center;
+        }
+        .burger span:nth-of-type(2) {
+            top: 50%;
+            transform: translateY(-50%);
+            transform-origin: left center;
+        }
+        .burger span:nth-of-type(3) {
+            top: 100%;
+            transform-origin: left center;
+            transform: translateY(-100%);
+        }
+        .burger input:checked ~ span:nth-of-type(1) {
+            transform: rotate(45deg);
+            top: 0px;
+            left: 5px;
+        }
+        .burger input:checked ~ span:nth-of-type(2) {
+            width: 0%;
+            opacity: 0;
+        }
+        .burger input:checked ~ span:nth-of-type(3) {
+            transform: rotate(-45deg);
+            top: 28px;
+            left: 5px;
+        }
     </style>
 </head>
 <body>
 <canvas class="background"></canvas>
 <div class="card" id="app">
-    <div id="text1">{{word.word}} : {{word.tranCn}}</div>
-    <div id="div_audio">
+    <label class="burger" for="burger">
+        <input type="checkbox" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <div id="text1" v-show="isLogin">{{word.word}} : {{word.tranCn}}</div>
+    <div id="div_audio" v-show="isLogin">
         <audio id="audio1" autoplay preload="auto" v-bind:src="wordMedia"></audio>
-        <audio id="audio2" autoplay preload="auto" v-bind:src="tranCnMedia"></audio>
+        <audio id="audio2" preload="auto" v-bind:src="tranCnMedia"></audio>
         <img id="img_button" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAU5SURBVHgB7VpNUttIFH7dMsVUVp4TwJxg7KrZx5xgmBMgG5jiZwEsZwWcIMkiwVXYRnMCyG52YfapwjlByA1YpYBY/fJeGxOpu2U7tn7sKn8LkFstS5/7637vfS2ABRZYYIE5goCC0Wjs+MITf6ISdypUp0HQvIUMUYKC4PuHZVl6OKbDQ0T6KxBESazS0RpkiEII+/7Oqrf0eElEK9F2klsNMoaEnLH59/6GLIkbRKxAAciVcGNr9xUqFdBhGQpCLpLuS1heFjWqUWRO2N/aqUkQTLawUY0iU0k3tvaOiewHcEhYgOgCigByRiYjrCVcEhcIWHOdp9F+02mfHTa2dk6mSQU4tEHpvgI9uB03fqc+wlrCS+IDukIMwh3F2/pFu3kIU4J/VLn0cMMKolX/M6tpnOtSJby5vXegJYywap5jCasQq53zZgApQJbUevw+eNLY3LsYdd1ISeuMSH71Qcqhiw4ReklSrbnOsYRVuHwSBK/vIEsI9Ik0dNrv6kldhhLmuAnwQPLzYBTQ3UgShlOS8GtIGar3IhClhw1aAeKhjklv7X7qtM6c90yUdJ8sTD7XEG61hBNuPC1YLRetsyqp51/H6WOe467rnIR54YEpyPJDkISrWVc+DFKPTyq6MprLVIg457OTsETYgEnAEgY44ofIfL5GoL4t11lR0TYuRJ4GLgbnHBZCrMbmpJYnj1h+JAbwN3fXpcCK6pGKExTDz0Xk6k9JzjOkEAf07zrWBmNACA7s+ZPldUQKuKQnOOYKq06VVlLfoNW8RoMcDVRNJycR5F4e/iSi60hZUKXlkukAAsL3RhOF1Pv1aMNME6Z52DXbuBAxR20ADlVWoydfxq+fYYSiZy1GwKNWundGEJ52lqyNfH6mCQfn55yOssdlrB/iIGmUKSZ+in+Op7mzPoehvzLjG6O57Hlfa67+5AVa02Bzf39lcDzzhBmq94uVraGQTveEQqoVTcLHx18Hx3NBWIdEcy4LueLqGwq0wyd6z/KfC8JpYi4I60JAGDU2qi8wAeaCsJS2eyJQdZ19QVlz21v2Pv84P+PQo+sJy74JwxfXrv6IctVsa799+6yGmSbs+9sV9scsy4jczqTcngqG36OfzWxtpgnLpdKlTZYrN3Xq6s/JiGkeIor5IUzkHH42HCWViWah0P8O9X+sD8wwYvbNk8Xbbp9dJfUXUljlo1IT1MNQ0OaX9q8V1kGFR6MsXt5Yt7xwPdfjanA6HooScErRni+mL6pQMe40JmMgo4Bv0mm9O4WU0OmM9rF1IeHR5rrxhEooy+BzjjDapth40AtM3xBPrGYygH6TwFjcaK5fswti9XV9gbZL0KpQxgd5w7wNkmSVpokkOznsodOMT5zD/f0fnFya9IuzD0UPNPU+kgusINrauQGnnYyJL8cM3XnotJonNEqBTu2kvV8UAwd8BDMssKxfEekVMuSPIEVwCKIYa5eICFeddvMk6bqRe0tPv1QAY+Bp+9O1i3fY2N5dV99wLTVzXqqyuQXE8zYMl+tDL4MUwYpQold1+FA/JE7hA1KANuwi9+E1p906WxtlJ6eeeAx8KNtM0yhTsnsx7l7u0PsQMdpU/00BrvGPPO6ec6Zv4g2ReD9mK3HNK3q0meZ6ps+UaWqpJY7wV5LETbJ5IPNcOqDcV1utLtIFIJfigVdmnm9TxfWUkGu1xBLXxYBlrOeH3MtDLgZUD6tFSbyQenggcTNfF+5QlipGv62SIbo3H/+rVv74QqVomci/VyH80+1+LEzuCyywwAIzh++GoUPdUk5hZAAAAABJRU5ErkJggg==">
     </div>
-    <input id="input1" type="text" v-model="wordName" v-on:keyup.enter="showNextWord()">
-    <input id="input2" tptle="text" v-bind:placeholder="word.word">
+    <input id="input1" type="text" v-model="wordName" v-on:keyup.enter="showNextWord()" v-on:keyup.up="upLevel(1)" v-on:keyup.down="upLevel(0)">
+    <input id="input2" type="text" v-bind:placeholder="word.word">
     <div class="container2" v-if="!isLogin">
         <div class="card2">
             <a class="login">LOGIN</a>
@@ -224,7 +291,7 @@
                 <span>password</span>
             </div>
             <div>
-                <button class="enter" v-on:click="loginSubmit()">登录</button>&nbsp;&nbsp;<button class="enter">立即使用</button>
+                <button class="enter" v-on:click="loginSubmit()">登录</button>&nbsp;&nbsp;<button class="enter" v-on:click="noLoginSubmit()">立即使用</button>
             </div>
         </div>
     </div>
@@ -237,24 +304,31 @@
                   u_id:null,
                   username:"root",
                   password:"123",
-                  level:0
                 },
                 words:null,
                 word:{
                     w_id:null,
-                    word:null,
-                    tranCn:null,
-                    media:null
+                    word:"hello",
+                    tranCn:"你好",
+                    level:3,
+                    isGrasp:false
                 },
                 wordName:null,
-                wordMedia:null,
-                tranCnMedia:null,
                 info:"",
                 index:0
             },
             computed:{
                 isLogin:function (){
                     return this.user.u_id != null;
+                },
+                wordMedia:function (){
+                    return "https://dict.youdao.com/dictvoice?audio="+this.word.word+"&amp;type=2"
+                },
+                tranCnMedia:function (){
+                    return "https://dict.youdao.com/dictvoice?audio="+encodeURIComponent(this.word.tranCn)+"&le=zh";
+                },
+                levelColor:function (){
+                    return this.word.level;
                 }
             },
             watch:{
@@ -274,10 +348,10 @@
                     }
                 }
             },
-            created(){
-              console.log(this.isLogin)
-            },
             methods:{
+                noLoginSubmit(){
+                    this.user.u_id="0"
+                },
                 loginSubmit(){
                     if (this.user.u_id !== null) return
                     if (this.user.username !== null && this.user.password !== null){
@@ -292,14 +366,13 @@
                     }
                 },
                 getWordList(){
-                    axios.get("/wordList").then((res)=>{
+                    axios.get("/word"+"?u_id="+this.user.u_id).then((res)=>{
                         console.log(res);
                         this.words = res.data.data;
                         this.word = this.words[0];
-                        this.wordMedia = "https://dict.youdao.com/dictvoice?audio="+this.word.word+"&amp;type=2"
                         const list = this.word.tranCn.split('/[,，；;]/');
                         console.log(list[0])
-                        this.tranCnMedia = "https://dict.youdao.com/dictvoice?audio="+encodeURIComponent(list[0])+"&le=zh";
+                        this.changeColor()
                     })
                 },
                 showNextWord(){
@@ -307,11 +380,37 @@
                     this.word = this.words[this.index]
                     this.wordName = ""
                     this.wordMedia = "https://dict.youdao.com/dictvoice?audio="+this.word.word+"&amp;type=2"
+                    this.changeColor();
+                },
+                upLevel(operate){
+                    const level = operate === 1 ? (this.word.level+1):(this.word.level-1)
+                    const params = "w_id="+this.word.w_id+"&level="+ level
+                    axios.put("/word?"+params,this.user).then((res)=>{
+                        if (20031 === res.data.code){
+                            this.words[this.word.w_id-1].level=level
+                            this.word.level=level
+                            this.changeColor()
+                        }else {
+                            console.log("修改失败了")
+                        }
+                    })
                 },
                 isEqual(){
                     if(this.word.word === this.wordName){
                         this.info = "对了"
                     }
+                },
+                changeColor(){
+                    let color = "";
+                    switch (this.word.level+""){
+                        case "0":color="rgb(0, 0, 0)";break;
+                        case "-1":color="rgb(0,255,0)";break;
+                        case "1":color="rgb(255,255,0)";break;
+                        case "2":color="rgb(255, 128, 0)";break;
+                        case "3":color="rgb(255,30,0)";break;
+                    }
+                    let text1 = document.getElementById("text1")
+                    text1.style.color=color
                 }
             }
         })

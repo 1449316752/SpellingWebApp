@@ -1,7 +1,9 @@
 package com.czk.service.impl;
 
 import com.czk.dao.wordsDao;
+import com.czk.domain.User;
 import com.czk.domain.Word;
+import com.czk.domain.WordRecord;
 import com.czk.service.wordService;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
@@ -24,6 +26,11 @@ public class wordServiceImpl implements wordService {
     @Override
     public List<Word> getWordList() {
         return wordsDao.getWordList();
+    }
+
+    @Override
+    public List<WordRecord> getWordRecords(User user) {
+        return wordsDao.getRecords(user);
     }
 
 
