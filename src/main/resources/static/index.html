@@ -8,7 +8,7 @@
     <script src="./js/axios-0.18.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.2/particles.min.js"></script>
     <script>
-        window.onload = function () {
+        /*window.onload = function () {
             //背景js-
             Particles.init({
                 selector: '.background',
@@ -18,20 +18,7 @@
                 connectParticles: true
             });
             //音频按钮js
-            const audio1 = document.getElementById('audio1');
-            const audio2 = document.getElementById('audio2')
-            const playButton = document.getElementById('img_button');
-            playButton.addEventListener('click', () => {
-                if (audio1.paused) {
-                    audio1.play()
-                    setTimeout(()=> audio2.play(),audio1.duration*1000+100)
-                } else {
-                    audio1.pause();
-                }
-            });
-            audio1.style.display = 'none';
-            audio2.style.display = 'none';
-        };
+        };*/
     </script>
     <style>
         html,body {
@@ -62,7 +49,7 @@
             backdrop-filter: blur(6px);
             border-radius: 35px;
             text-align: center;
-            cursor: pointer;
+            /*cursor: pointer;*/
             transition: all 1s;
             display: flex;
             align-items: center;
@@ -75,13 +62,13 @@
         }
         .card:hover {
             border: 1px solid black;
-            transform: scale(1.05);
+            /*transform: scale(3);*/
         }
         .card:active {
-            transform: scale(0.95) rotateZ(1.7deg);
+            /*transform: scale(0.95) rotateZ(1.7deg);*/
         }
 
-        #input1 {
+        #input1 { /*单词输入框*/
             color: rgba(255, 255, 255, 0.919);
             font-size: 40px;
             outline: none;
@@ -89,9 +76,9 @@
             caret-color: rgba(0, 0, 0, 0);
             position: absolute;
             z-index: 2;
-            width: 400px;
+            width: 30%;
         }
-        #input2 {
+        #input2 { /*单词输入框提示*/
             color: rgb(255, 255, 255);
             font-size: 40px;
             outline: none;
@@ -99,16 +86,19 @@
             caret-color: rgba(0, 0, 0, 0);
             position: absolute;
             z-index: 1;
-            width: 400px;
+            width: 30%;
         }
-        #text1{
-            height: 200px;
-            width: 50%;
+        #text1{ /*序号、英文单词、中文显示*/
+            height: 10%;
             font-size: 40px;
+            position: relative;
+            display: inherit;
+            left: 0%;
+            top: -10%;
             z-index: 2;
         }
-        #div_audio{
-            z-index: 1;
+        #div_audio{ /*音频播放按钮*/
+            z-index: 2;
         }
         #img_button{
             width: 35px;
@@ -116,9 +106,10 @@
             position: fixed;
             left: 66%;
             top: 48%;
+            z-index:2;
         }
 
-        .container2{
+        .container2{ /*登录框*/
             z-index: 4;
         }
         .card2 {
@@ -207,15 +198,16 @@
             color: white;
         }
 
-        .burger {
-            position: relative;
-            left: 50%;
-            top: -40%;
+        .burger { /*功能列表显示按钮*/
+            position: fixed;
+            left: 70%;
+            top: 15%;
             width: 40px;
             height: 30px;
             background: transparent;
             cursor: pointer;
             display: block;
+            z-index: 2;
         }
         .burger input {
             display: none;
@@ -260,25 +252,200 @@
             top: 28px;
             left: 5px;
         }
+
+        #div_tool{ /*功能列表框*/
+            width: 50%;
+            height: 15%;
+            position: fixed;
+            top: 10%;
+            border-radius: 29px;
+            background: #e8e8e8;
+            box-shadow:  -5px 5px 0px #b3b3b3,
+            5px -5px 0px #ffffff;
+        }
+
+        #listSelect{ /*切换单词组下拉列表*/
+            position: fixed;
+            left: 45%;
+            top:15%
+        }
+
+        .material-checkbox { /*洗脑功能复选框*/
+            background-color: #fefefe;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #777777;
+            cursor: pointer;
+            border-radius: 10px;
+            position: fixed;
+            top: 15%;
+            left: 26%;
+            width:110px;
+            height: 30px;
+        }
+        .material-checkbox input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .checkmark {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            border: 2px solid #454B00;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .material-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 4px;
+            height: 10px;
+            border: solid black;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        #checklist { /*序号、单词、中文显示复选框*/
+            --text: #414856;
+            --check: #4f29f0;
+            --disabled: #c3c8de;
+            width: 8%;
+            height: 10%;
+            background: #fff;
+            border-radius: 10px;
+            position: fixed;
+            top: 10%;
+            left: 35%;
+            padding: 15px 5px;
+            display: grid;
+            grid-template-columns: 30px auto;
+            align-items: center;
+            justify-content: center;
+        }
+        #checklist input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            position: relative;
+            height: 11px;
+            width: 10px;
+            outline: none;
+            border: 0;
+            cursor: pointer;
+            display: grid;
+            align-items: center;
+            margin: 0 20px 0 0;
+        }
+        #checklist input[type="checkbox"]::before, #checklist input[type="checkbox"]::after {
+            content: "";
+            position: absolute;
+            height: 2px;
+            top: auto;
+            background: var(--check);
+            border-radius: 2px;
+        }
+        #checklist input[type="checkbox"]::before {
+            width: 0px;
+            right: 60%;
+            transform-origin: right bottom;
+        }
+        #checklist input[type="checkbox"]::after {
+            width: 0px;
+            left: 40%;
+            transform-origin: left bottom;
+        }
+        #checklist input[type="checkbox"]:checked::before {
+            animation: check-01 0.4s ease forwards;
+        }
+        #checklist input[type="checkbox"]:checked::after {
+            animation: check-02 0.4s ease forwards;
+        }
+        #checklist input[type="checkbox"]:checked + label {
+            color: var(--disabled);
+            animation: move 0.3s ease 0.1s forwards;
+        }
+        @keyframes check-01 {
+            0% {
+                width: 4px;
+                top: auto;
+                transform: rotate(0);
+            }
+            50% {
+                width: 0px;
+                top: auto;
+                transform: rotate(0);
+            }
+            100% {
+                width: 5px;
+                top: 8px;
+                transform: rotate(45deg);
+            }
+        }
+        @keyframes check-02 {
+            0% {
+                width: 4px;
+                top: auto;
+                transform: rotate(0);
+            }
+            50% {
+                width: 0px;
+                top: auto;
+                transform: rotate(0);
+            }
+            100% {
+                width: 10px;
+                top: 8px;
+                transform: rotate(-45deg);
+            }
+        }
     </style>
 </head>
 <body>
-<canvas class="background"></canvas>
+<!--<canvas class="background"></canvas>--><!--背景动画-->
 <div class="card" id="app">
     <label class="burger" for="burger">
-        <input type="checkbox" id="burger">
+        <input type="checkbox" id="burger" v-on:click="ShowTools()">
         <span></span>
         <span></span>
         <span></span>
     </label>
-    <div id="text1" v-show="isLogin">{{word.word}} : {{word.tranCn}}</div>
+    <div id="div_tool" v-show="tools.isShowTools">
+        <label class="material-checkbox">
+            <input type="checkbox">
+            <span class="checkmark"></span>
+            洗脑模式
+        </label>
+        <div id="checklist">
+            <input value="1" v-model="tools.isShowEng" name="r" type="checkbox" id="01">
+            <label for="01">英文</label>
+            <input value="2" v-model="tools.isShowCn" name="r" type="checkbox" id="02">
+            <label for="02">中文</label>
+            <input value="3" v-model="tools.isShowTip" name="r" type="checkbox" id="03">
+            <label for="03">提示</label>
+        </div>
+        <div id="listSelect">
+            切换单词组
+            <select v-model="groupIndex">
+                <option v-for="i in (5,wordsLength)" :value="i">{{i}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="text1" v-show="isLogin">{{word.w_id}} : <div v-show="tools.isShowEng">{{word.word}}</div><div v-show="!tools.isShowEng">_____</div> : <div v-show="tools.isShowCn">{{word.tranCn}}</div><div v-show="!tools.isShowCn">?????</div></div>
     <div id="div_audio" v-show="isLogin">
         <audio id="audio1" autoplay preload="auto" v-bind:src="wordMedia"></audio>
         <audio id="audio2" preload="auto" v-bind:src="tranCnMedia"></audio>
-        <img id="img_button" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAU5SURBVHgB7VpNUttIFH7dMsVUVp4TwJxg7KrZx5xgmBMgG5jiZwEsZwWcIMkiwVXYRnMCyG52YfapwjlByA1YpYBY/fJeGxOpu2U7tn7sKn8LkFstS5/7637vfS2ABRZYYIE5goCC0Wjs+MITf6ISdypUp0HQvIUMUYKC4PuHZVl6OKbDQ0T6KxBESazS0RpkiEII+/7Oqrf0eElEK9F2klsNMoaEnLH59/6GLIkbRKxAAciVcGNr9xUqFdBhGQpCLpLuS1heFjWqUWRO2N/aqUkQTLawUY0iU0k3tvaOiewHcEhYgOgCigByRiYjrCVcEhcIWHOdp9F+02mfHTa2dk6mSQU4tEHpvgI9uB03fqc+wlrCS+IDukIMwh3F2/pFu3kIU4J/VLn0cMMKolX/M6tpnOtSJby5vXegJYywap5jCasQq53zZgApQJbUevw+eNLY3LsYdd1ISeuMSH71Qcqhiw4ReklSrbnOsYRVuHwSBK/vIEsI9Ik0dNrv6kldhhLmuAnwQPLzYBTQ3UgShlOS8GtIGar3IhClhw1aAeKhjklv7X7qtM6c90yUdJ8sTD7XEG61hBNuPC1YLRetsyqp51/H6WOe467rnIR54YEpyPJDkISrWVc+DFKPTyq6MprLVIg457OTsETYgEnAEgY44ofIfL5GoL4t11lR0TYuRJ4GLgbnHBZCrMbmpJYnj1h+JAbwN3fXpcCK6pGKExTDz0Xk6k9JzjOkEAf07zrWBmNACA7s+ZPldUQKuKQnOOYKq06VVlLfoNW8RoMcDVRNJycR5F4e/iSi60hZUKXlkukAAsL3RhOF1Pv1aMNME6Z52DXbuBAxR20ADlVWoydfxq+fYYSiZy1GwKNWundGEJ52lqyNfH6mCQfn55yOssdlrB/iIGmUKSZ+in+Op7mzPoehvzLjG6O57Hlfa67+5AVa02Bzf39lcDzzhBmq94uVraGQTveEQqoVTcLHx18Hx3NBWIdEcy4LueLqGwq0wyd6z/KfC8JpYi4I60JAGDU2qi8wAeaCsJS2eyJQdZ19QVlz21v2Pv84P+PQo+sJy74JwxfXrv6IctVsa799+6yGmSbs+9sV9scsy4jczqTcngqG36OfzWxtpgnLpdKlTZYrN3Xq6s/JiGkeIor5IUzkHH42HCWViWah0P8O9X+sD8wwYvbNk8Xbbp9dJfUXUljlo1IT1MNQ0OaX9q8V1kGFR6MsXt5Yt7xwPdfjanA6HooScErRni+mL6pQMe40JmMgo4Bv0mm9O4WU0OmM9rF1IeHR5rrxhEooy+BzjjDapth40AtM3xBPrGYygH6TwFjcaK5fswti9XV9gbZL0KpQxgd5w7wNkmSVpokkOznsodOMT5zD/f0fnFya9IuzD0UPNPU+kgusINrauQGnnYyJL8cM3XnotJonNEqBTu2kvV8UAwd8BDMssKxfEekVMuSPIEVwCKIYa5eICFeddvMk6bqRe0tPv1QAY+Bp+9O1i3fY2N5dV99wLTVzXqqyuQXE8zYMl+tDL4MUwYpQold1+FA/JE7hA1KANuwi9+E1p906WxtlJ6eeeAx8KNtM0yhTsnsx7l7u0PsQMdpU/00BrvGPPO6ec6Zv4g2ReD9mK3HNK3q0meZ6ps+UaWqpJY7wV5LETbJ5IPNcOqDcV1utLtIFIJfigVdmnm9TxfWUkGu1xBLXxYBlrOeH3MtDLgZUD6tFSbyQenggcTNfF+5QlipGv62SIbo3H/+rVv74QqVomci/VyH80+1+LEzuCyywwAIzh++GoUPdUk5hZAAAAABJRU5ErkJggg==">
+        <img id="img_button" v-on:click="playMedia()" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAU5SURBVHgB7VpNUttIFH7dMsVUVp4TwJxg7KrZx5xgmBMgG5jiZwEsZwWcIMkiwVXYRnMCyG52YfapwjlByA1YpYBY/fJeGxOpu2U7tn7sKn8LkFstS5/7637vfS2ABRZYYIE5goCC0Wjs+MITf6ISdypUp0HQvIUMUYKC4PuHZVl6OKbDQ0T6KxBESazS0RpkiEII+/7Oqrf0eElEK9F2klsNMoaEnLH59/6GLIkbRKxAAciVcGNr9xUqFdBhGQpCLpLuS1heFjWqUWRO2N/aqUkQTLawUY0iU0k3tvaOiewHcEhYgOgCigByRiYjrCVcEhcIWHOdp9F+02mfHTa2dk6mSQU4tEHpvgI9uB03fqc+wlrCS+IDukIMwh3F2/pFu3kIU4J/VLn0cMMKolX/M6tpnOtSJby5vXegJYywap5jCasQq53zZgApQJbUevw+eNLY3LsYdd1ISeuMSH71Qcqhiw4ReklSrbnOsYRVuHwSBK/vIEsI9Ik0dNrv6kldhhLmuAnwQPLzYBTQ3UgShlOS8GtIGar3IhClhw1aAeKhjklv7X7qtM6c90yUdJ8sTD7XEG61hBNuPC1YLRetsyqp51/H6WOe467rnIR54YEpyPJDkISrWVc+DFKPTyq6MprLVIg457OTsETYgEnAEgY44ofIfL5GoL4t11lR0TYuRJ4GLgbnHBZCrMbmpJYnj1h+JAbwN3fXpcCK6pGKExTDz0Xk6k9JzjOkEAf07zrWBmNACA7s+ZPldUQKuKQnOOYKq06VVlLfoNW8RoMcDVRNJycR5F4e/iSi60hZUKXlkukAAsL3RhOF1Pv1aMNME6Z52DXbuBAxR20ADlVWoydfxq+fYYSiZy1GwKNWundGEJ52lqyNfH6mCQfn55yOssdlrB/iIGmUKSZ+in+Op7mzPoehvzLjG6O57Hlfa67+5AVa02Bzf39lcDzzhBmq94uVraGQTveEQqoVTcLHx18Hx3NBWIdEcy4LueLqGwq0wyd6z/KfC8JpYi4I60JAGDU2qi8wAeaCsJS2eyJQdZ19QVlz21v2Pv84P+PQo+sJy74JwxfXrv6IctVsa799+6yGmSbs+9sV9scsy4jczqTcngqG36OfzWxtpgnLpdKlTZYrN3Xq6s/JiGkeIor5IUzkHH42HCWViWah0P8O9X+sD8wwYvbNk8Xbbp9dJfUXUljlo1IT1MNQ0OaX9q8V1kGFR6MsXt5Yt7xwPdfjanA6HooScErRni+mL6pQMe40JmMgo4Bv0mm9O4WU0OmM9rF1IeHR5rrxhEooy+BzjjDapth40AtM3xBPrGYygH6TwFjcaK5fswti9XV9gbZL0KpQxgd5w7wNkmSVpokkOznsodOMT5zD/f0fnFya9IuzD0UPNPU+kgusINrauQGnnYyJL8cM3XnotJonNEqBTu2kvV8UAwd8BDMssKxfEekVMuSPIEVwCKIYa5eICFeddvMk6bqRe0tPv1QAY+Bp+9O1i3fY2N5dV99wLTVzXqqyuQXE8zYMl+tDL4MUwYpQold1+FA/JE7hA1KANuwi9+E1p906WxtlJ6eeeAx8KNtM0yhTsnsx7l7u0PsQMdpU/00BrvGPPO6ec6Zv4g2ReD9mK3HNK3q0meZ6ps+UaWqpJY7wV5LETbJ5IPNcOqDcV1utLtIFIJfigVdmnm9TxfWUkGu1xBLXxYBlrOeH3MtDLgZUD6tFSbyQenggcTNfF+5QlipGv62SIbo3H/+rVv74QqVomci/VyH80+1+LEzuCyywwAIzh++GoUPdUk5hZAAAAABJRU5ErkJggg==">
     </div>
-    <input id="input1" type="text" v-model="wordName" v-on:keyup.enter="showNextWord()" v-on:keyup.up="upLevel(1)" v-on:keyup.down="upLevel(0)">
-    <input id="input2" type="text" v-bind:placeholder="word.word">
+    <input id="input1" v-on:keyup.space="playMedia()" type="text" v-model="wordName" v-on:keyup.enter="showNextWord()" v-on:keyup.up="upLevel(1)" v-on:keyup.down="upLevel(0)">
+    <input id="input2" type="text" v-show="tools.isShowTip" v-bind:placeholder="word.word">
+
     <div class="container2" v-if="!isLogin">
         <div class="card2">
             <a class="login">LOGIN</a>
@@ -305,17 +472,26 @@
                   username:"root",
                   password:"123",
                 },
-                words:null,
+                words: [],
                 word:{
-                    w_id:null,
+                    w_id:0,
                     word:"hello",
                     tranCn:"你好",
                     level:3,
                     isGrasp:false
                 },
-                wordName:null,
-                info:"",
-                index:0
+                wordGroup:null,
+                groupIndex:0,
+                wordName:"",
+                index:0,
+                tools:{
+                    isShowTools:true,
+                    isBrainwash:false,
+                    isShowEng:true,
+                    isShowCn:true,
+                    isShowTip:true
+                }
+
             },
             computed:{
                 isLogin:function (){
@@ -329,7 +505,17 @@
                 },
                 levelColor:function (){
                     return this.word.level;
+                },
+                wordsLength:function (){
+                    return Math.ceil(this.words.length/20)
                 }
+            },
+            mounted(){
+                const audio1 = document.getElementById('audio1');
+                const audio2 = document.getElementById('audio2')
+                audio1.style.display = 'none';
+                audio2.style.display = 'none';
+
             },
             watch:{
                 wordName(newValue,oldValue){
@@ -337,18 +523,38 @@
                     const length = this.wordName.length
                     if (this.word.word.substring(0,length) !== this.wordName){
                         this.wordName = ""
-                        return
                     }
-                    this.info = ""
-                    this.isEqual();
                 },
                 isLogin(newValue,oldValue){
                     if (newValue != null){
                         this.getWordList();
                     }
+                },
+                groupIndex(newValue,oldValue){
+                    this.wordGroup = this.words.slice((newValue-1)*20,(newValue)*20)
+                    this.index = 0;
+                    this.word = this.wordGroup[this.index]
+                    this.changeColor();
                 }
             },
             methods:{
+                ShowTools(){
+                    this.tools.isShowTools = !this.tools.isShowTools
+                },
+                playMedia(){
+                    const audio1 = document.getElementById('audio1');
+                    const audio2 = document.getElementById('audio2');
+                    let i = this.tools.isBrainwash? 10 : 1
+                    for (let j = 0; j < i; j++) {
+                        setTimeout(() =>{
+                            if (audio1.paused) {
+                                if (!this.tools.isBrainwash && j !== 0) return
+                                audio1.play()
+                                setTimeout(() => audio2.play(), audio1.duration * 1000 + 100)
+                            }
+                        },(audio1.duration * 1000 + 200 + audio2.duration*1000)*j)
+                    }
+                },
                 noLoginSubmit(){
                     this.user.u_id="0"
                 },
@@ -358,10 +564,10 @@
                         axios.post("/user",this.user).then((res)=>{
                             if (res.data.code === 20041){
                                 this.user.u_id = res.data.data.u_id
-                                console.log("登录成功")
                             }else {
-                                console.log("登录失败")
+                                alert(res.data.msg)
                             }
+                            console.log(res.data.msg)
                         })
                     }
                 },
@@ -369,17 +575,18 @@
                     axios.get("/word"+"?u_id="+this.user.u_id).then((res)=>{
                         console.log(res);
                         this.words = res.data.data;
-                        this.word = this.words[0];
-                        const list = this.word.tranCn.split('/[,，；;]/');
-                        console.log(list[0])
+                        this.groupIndex = 1;
                         this.changeColor()
                     })
                 },
                 showNextWord(){
+                    if (this.index === this.wordGroup.length-1) {
+                        console.log("最后一个了")
+                        return
+                    }
                     this.index++;
-                    this.word = this.words[this.index]
+                    this.word = this.wordGroup[this.index]
                     this.wordName = ""
-                    this.wordMedia = "https://dict.youdao.com/dictvoice?audio="+this.word.word+"&amp;type=2"
                     this.changeColor();
                 },
                 upLevel(operate){
@@ -388,17 +595,13 @@
                     axios.put("/word?"+params,this.user).then((res)=>{
                         if (20031 === res.data.code){
                             this.words[this.word.w_id-1].level=level
+                            this.wordGroup[this.index].level = level
                             this.word.level=level
                             this.changeColor()
                         }else {
                             console.log("修改失败了")
                         }
                     })
-                },
-                isEqual(){
-                    if(this.word.word === this.wordName){
-                        this.info = "对了"
-                    }
                 },
                 changeColor(){
                     let color = "";
@@ -407,10 +610,9 @@
                         case "-1":color="rgb(0,255,0)";break;
                         case "1":color="rgb(255,255,0)";break;
                         case "2":color="rgb(255, 128, 0)";break;
-                        case "3":color="rgb(255,30,0)";break;
+                        case "3":color="rgb(255,10,0)";break;
                     }
-                    let text1 = document.getElementById("text1")
-                    text1.style.color=color
+                    document.getElementById("text1").style.color=color
                 }
             }
         })
