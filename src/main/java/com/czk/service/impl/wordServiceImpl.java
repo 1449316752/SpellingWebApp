@@ -3,6 +3,7 @@ package com.czk.service.impl;
 import com.czk.dao.wordsDao;
 import com.czk.domain.User;
 import com.czk.domain.Word;
+import com.czk.domain.WordListType;
 import com.czk.domain.WordRecord;
 import com.czk.service.wordService;
 import org.apache.commons.io.FileUtils;
@@ -24,7 +25,17 @@ public class wordServiceImpl implements wordService {
     @Autowired
     private wordsDao wordsDao;
     @Override
-    public List<Word> getWordList() {
+    public List<Word> getWords(int list_id) {
+        return wordsDao.getWords(list_id);
+    }
+
+    @Override
+    public List<Word> getWordsAndRecord(int u_id, int list_id) {
+        return wordsDao.getWordsAndRecord(u_id,list_id);
+    }
+
+    @Override
+    public List<WordListType> getWordList() {
         return wordsDao.getWordList();
     }
 
@@ -32,6 +43,7 @@ public class wordServiceImpl implements wordService {
     public List<WordRecord> getWordRecords(User user) {
         return wordsDao.getRecords(user);
     }
+
 
 
     /*@Override

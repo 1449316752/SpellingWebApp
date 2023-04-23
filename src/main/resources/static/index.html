@@ -271,6 +271,12 @@
             top:15%
         }
 
+        #wordSelect{
+            position: fixed;
+            left: 60    %;
+            top:15%
+        }
+
         .material-checkbox { /*洗脑功能复选框*/
             background-color: #fefefe;
             display: flex;
@@ -405,11 +411,107 @@
                 transform: rotate(-45deg);
             }
         }
+
+        .card3 {/*用户显示框*/
+            max-width: 320px;
+            border-radius: 1rem;
+            background-color: rgba(31, 41, 55, 1);
+            padding: 1rem;
+            position: fixed;
+            left: 1%;
+            top: 5%;
+        }
+        .infos {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            grid-gap: 1rem;
+            gap: 1rem;
+        }
+        .image {
+            height: 7rem;
+            width: 7rem;
+            border-radius: 0.5rem;
+            background: rgb(118, 36, 194) linear-gradient(to bottom right, rgb(118, 36, 194), rgb(185, 128, 240));
+        }
+        .info {
+            height: 8rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .name {
+            font-size: 1.25rem;
+            line-height: 1.0rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 1);
+        }
+        .function {
+            font-size: 0.75rem;
+            line-height: 1rem;
+            color: rgba(156, 163, 175, 1);
+        }
+        .stats {
+            width: 100%;
+            border-radius: 0.5rem;
+            background-color: rgba(255, 255, 255, 1);
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            color: rgba(0, 0, 0, 1);
+        }
+        .flex {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 4px;
+        }
+        .state-value {
+            font-weight: 700;
+            color: rgb(118, 36, 194);
+        }
+        .request {
+            margin-top: 1.5rem;
+            width: 100%;
+            border: 1px solid transparent;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            transition: all .3s ease;
+        }
+        .request:hover {
+            background-color: rgb(118, 36, 194);
+            color: #fff;
+        }
+
     </style>
 </head>
 <body>
 <!--<canvas class="background"></canvas>--><!--背景动画-->
 <div class="card" id="app">
+
+    <div class="card3" v-show="tools.isShowTools">
+        <div class="infos">
+            <div class="image"></div>
+            <div class="info">
+                <div>
+                    <p class="name">{{user.username}} </p>
+                </div>
+                <div class="stats">
+                    <p class="flex flex-col">Articles<span class="state-value">34</span></p>
+                    <p class="flex">Followers<span class="state-value">455</span></p>
+                </div>
+            </div>
+        </div>
+        <button class="request" @click="goToLogin()" v-if="!isLogin">前往登录</button>
+        <button class="request" @click="goToLogout()" v-if="isLogin">退出登录</button>
+    </div>
+
     <label class="burger" for="burger">
         <input type="checkbox" id="burger" v-on:click="ShowTools()">
         <span></span>
@@ -431,60 +533,43 @@
             <label for="03">提示</label>
         </div>
         <div id="listSelect">
+            切换单词本
+            <select v-model="wordListIndex">
+                <option v-for="list in wordList" :value="list.list_id">{{list.list_name}}</option>
+            </select>
+        </div>
+        <div id="wordSelect">
             切换单词组
             <select v-model="groupIndex">
-                <option v-for="i in (5,wordsLength)" :value="i">{{i}}</option>
+                <option v-for="i in wordsLength" :value="i-1">{{i}}</option>
             </select>
         </div>
     </div>
 
-    <div id="text1" v-show="isLogin">{{word.w_id}} : <div v-show="tools.isShowEng">{{word.word}}</div><div v-show="!tools.isShowEng">_____</div> : <div v-show="tools.isShowCn">{{word.tranCn}}</div><div v-show="!tools.isShowCn">?????</div></div>
-    <div id="div_audio" v-show="isLogin">
+    <div id="text1">{{word.w_id}} : <div v-show="tools.isShowEng">{{word.word}}</div><div v-show="!tools.isShowEng">_____</div> : <div v-show="tools.isShowCn">{{word.tranCn}}</div><div v-show="!tools.isShowCn">?????</div></div>
+    <div id="div_audio">
         <audio id="audio1" autoplay preload="auto" v-bind:src="wordMedia"></audio>
         <audio id="audio2" preload="auto" v-bind:src="tranCnMedia"></audio>
         <img id="img_button" v-on:click="playMedia()" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAU5SURBVHgB7VpNUttIFH7dMsVUVp4TwJxg7KrZx5xgmBMgG5jiZwEsZwWcIMkiwVXYRnMCyG52YfapwjlByA1YpYBY/fJeGxOpu2U7tn7sKn8LkFstS5/7637vfS2ABRZYYIE5goCC0Wjs+MITf6ISdypUp0HQvIUMUYKC4PuHZVl6OKbDQ0T6KxBESazS0RpkiEII+/7Oqrf0eElEK9F2klsNMoaEnLH59/6GLIkbRKxAAciVcGNr9xUqFdBhGQpCLpLuS1heFjWqUWRO2N/aqUkQTLawUY0iU0k3tvaOiewHcEhYgOgCigByRiYjrCVcEhcIWHOdp9F+02mfHTa2dk6mSQU4tEHpvgI9uB03fqc+wlrCS+IDukIMwh3F2/pFu3kIU4J/VLn0cMMKolX/M6tpnOtSJby5vXegJYywap5jCasQq53zZgApQJbUevw+eNLY3LsYdd1ISeuMSH71Qcqhiw4ReklSrbnOsYRVuHwSBK/vIEsI9Ik0dNrv6kldhhLmuAnwQPLzYBTQ3UgShlOS8GtIGar3IhClhw1aAeKhjklv7X7qtM6c90yUdJ8sTD7XEG61hBNuPC1YLRetsyqp51/H6WOe467rnIR54YEpyPJDkISrWVc+DFKPTyq6MprLVIg457OTsETYgEnAEgY44ofIfL5GoL4t11lR0TYuRJ4GLgbnHBZCrMbmpJYnj1h+JAbwN3fXpcCK6pGKExTDz0Xk6k9JzjOkEAf07zrWBmNACA7s+ZPldUQKuKQnOOYKq06VVlLfoNW8RoMcDVRNJycR5F4e/iSi60hZUKXlkukAAsL3RhOF1Pv1aMNME6Z52DXbuBAxR20ADlVWoydfxq+fYYSiZy1GwKNWundGEJ52lqyNfH6mCQfn55yOssdlrB/iIGmUKSZ+in+Op7mzPoehvzLjG6O57Hlfa67+5AVa02Bzf39lcDzzhBmq94uVraGQTveEQqoVTcLHx18Hx3NBWIdEcy4LueLqGwq0wyd6z/KfC8JpYi4I60JAGDU2qi8wAeaCsJS2eyJQdZ19QVlz21v2Pv84P+PQo+sJy74JwxfXrv6IctVsa799+6yGmSbs+9sV9scsy4jczqTcngqG36OfzWxtpgnLpdKlTZYrN3Xq6s/JiGkeIor5IUzkHH42HCWViWah0P8O9X+sD8wwYvbNk8Xbbp9dJfUXUljlo1IT1MNQ0OaX9q8V1kGFR6MsXt5Yt7xwPdfjanA6HooScErRni+mL6pQMe40JmMgo4Bv0mm9O4WU0OmM9rF1IeHR5rrxhEooy+BzjjDapth40AtM3xBPrGYygH6TwFjcaK5fswti9XV9gbZL0KpQxgd5w7wNkmSVpokkOznsodOMT5zD/f0fnFya9IuzD0UPNPU+kgusINrauQGnnYyJL8cM3XnotJonNEqBTu2kvV8UAwd8BDMssKxfEekVMuSPIEVwCKIYa5eICFeddvMk6bqRe0tPv1QAY+Bp+9O1i3fY2N5dV99wLTVzXqqyuQXE8zYMl+tDL4MUwYpQold1+FA/JE7hA1KANuwi9+E1p906WxtlJ6eeeAx8KNtM0yhTsnsx7l7u0PsQMdpU/00BrvGPPO6ec6Zv4g2ReD9mK3HNK3q0meZ6ps+UaWqpJY7wV5LETbJ5IPNcOqDcV1utLtIFIJfigVdmnm9TxfWUkGu1xBLXxYBlrOeH3MtDLgZUD6tFSbyQenggcTNfF+5QlipGv62SIbo3H/+rVv74QqVomci/VyH80+1+LEzuCyywwAIzh++GoUPdUk5hZAAAAABJRU5ErkJggg==">
     </div>
     <input id="input1" v-on:keyup.space="playMedia()" type="text" v-model="wordName" v-on:keyup.enter="showNextWord()" v-on:keyup.up="upLevel(1)" v-on:keyup.down="upLevel(0)">
     <input id="input2" type="text" v-show="tools.isShowTip" v-bind:placeholder="word.word">
-
-    <div class="container2" v-if="!isLogin">
-        <div class="card2">
-            <a class="login">LOGIN</a>
-            <div class="inputBox">
-                <input type="text" required="required" v-model="user.username">
-                <span class="user">username</span>
-            </div>
-            <div class="inputBox">
-                <input type="password" required="required" v-model="user.password">
-                <span>password</span>
-            </div>
-            <div>
-                <button class="enter" v-on:click="loginSubmit()">登录</button>&nbsp;&nbsp;<button class="enter" v-on:click="noLoginSubmit()">立即使用</button>
-            </div>
-        </div>
-    </div>
 </div>
     <script>
         new Vue({
             el:"#app",
             data:{
                 user:{
-                  u_id:null,
-                  username:"root",
-                  password:"123",
+                  u_id:0,
+                  username:"NoLogin",
+                  password:"",
                 },
-                words: [],
-                word:{
-                    w_id:0,
-                    word:"hello",
-                    tranCn:"你好",
-                    level:3,
-                    isGrasp:false
-                },
-                wordGroup:null,
+                wordList:null,
+                wordListIndex:1,
+                words: [{level:0}],
                 groupIndex:0,
                 wordName:"",
-                index:0,
+                wordIndex:0,
                 tools:{
                     isShowTools:true,
                     isBrainwash:false,
@@ -495,8 +580,8 @@
 
             },
             computed:{
-                isLogin:function (){
-                    return this.user.u_id != null;
+                isLogin:function () {
+                  return this.user.u_id !== 0
                 },
                 wordMedia:function (){
                     return "https://dict.youdao.com/dictvoice?audio="+this.word.word+"&amp;type=2"
@@ -504,11 +589,17 @@
                 tranCnMedia:function (){
                     return "https://dict.youdao.com/dictvoice?audio="+encodeURIComponent(this.word.tranCn)+"&le=zh";
                 },
-                levelColor:function (){
-                    return this.word.level;
-                },
                 wordsLength:function (){
                     return Math.ceil(this.words.length/20)
+                },
+                wordLevel:function (){
+                    return this.word.level
+                },
+                wordGroup:function () {
+                    return this.words.slice(this.groupIndex*20,(this.groupIndex+1)*20)
+                },
+                word:function (){
+                    return this.wordGroup[this.wordIndex]
                 }
             },
             mounted(){
@@ -516,7 +607,16 @@
                 const audio2 = document.getElementById('audio2')
                 audio1.style.display = 'none';
                 audio2.style.display = 'none';
-
+            },
+            created(){
+                axios.get("/user/isLogin").then((res)=>{
+                    if (res.data.data !== null){
+                        this.user = res.data.data
+                    }
+                })
+                this.wordIndex = 0;
+                this.getWordList();
+                this.getWords()
             },
             watch:{
                 wordName(newValue,oldValue){
@@ -528,17 +628,32 @@
                 },
                 isLogin(newValue,oldValue){
                     if (newValue != null){
-                        this.getWordList();
+                        this.getWords();
                     }
                 },
-                groupIndex(newValue,oldValue){
-                    this.wordGroup = this.words.slice((newValue-1)*20,(newValue)*20)
-                    this.index = 0;
-                    this.word = this.wordGroup[this.index]
-                    this.changeColor();
+                wordListIndex(newValue,OldValue){
+                    this.getWords()
+                },
+                groupIndex(n,o){
+                    this.wordIndex = 0
+                },
+                wordLevel(n,o){
+                    this.changeColor(Number(this.wordLevel))
                 }
             },
+
             methods:{
+                goToLogin(){
+                    window.location.href = 'login.html'
+                },
+                goToLogout(){
+                    axios.get("/user/logout").then((res)=>{
+                        if (res.data.code === 20041){
+                            this.user.u_id = 0
+                            this.user.username = "NoLogin"
+                        }
+                    })
+                },
                 ShowTools(){
                     this.tools.isShowTools = !this.tools.isShowTools
                 },
@@ -556,28 +671,25 @@
                         },(audio1.duration * 1000 + 200 + audio2.duration*1000)*j)
                     }
                 },
-                noLoginSubmit(){
-                    this.user.u_id="0"
-                },
-                loginSubmit(){
-                    if (this.user.u_id !== null) return
-                    if (this.user.username !== null && this.user.password !== null){
-                        axios.post("/user",this.user).then((res)=>{
-                            if (res.data.code === 20041){
-                                this.user.u_id = res.data.data.u_id
-                            }else {
-                                alert(res.data.msg)
-                            }
-                            console.log(res.data.msg)
-                        })
-                    }
+                getWords(){
+                    axios.get("/word"+"?u_id="+this.user.u_id+"&list_id="+this.wordListIndex).then((res)=>{
+                        console.log(res);
+                        if (res.data.code === 20041){
+                            this.words = res.data.data;
+                            this.groupIndex = 0;
+                            this.wordIndex = 0;
+                        }else {
+                            alert("获取单词失败")
+                        }
+                    })
                 },
                 getWordList(){
-                    axios.get("/word"+"?u_id="+this.user.u_id).then((res)=>{
-                        console.log(res);
-                        this.words = res.data.data;
-                        this.groupIndex = 1;
-                        this.changeColor()
+                    axios.get("/word/wordlist").then((res)=>{
+                        if (res.data.code === 20041){
+                            this.wordList = res.data.data
+                        }else {
+                            alert("获取单词表失败")
+                        }
                     })
                 },
                 showNextWord(){
@@ -585,33 +697,35 @@
                         console.log("最后一个了")
                         return
                     }
-                    this.index++;
-                    this.word = this.wordGroup[this.index]
+                    this.wordIndex++;
                     this.wordName = ""
-                    this.changeColor();
                 },
                 upLevel(operate){
-                    const level = operate === 1 ? (this.word.level+1):(this.word.level-1)
+                    if (!this.isLogin ) return
+                    let level
+                    if (operate === 1){
+                        level = Number(this.wordLevel) +1
+                    }else{
+                        level = Number(this.wordLevel) -1
+                    }
+                    console.log(level)
                     const params = "w_id="+this.word.w_id+"&level="+ level
                     axios.put("/word?"+params,this.user).then((res)=>{
                         if (20031 === res.data.code){
-                            this.words[this.word.w_id-1].level=level
-                            this.wordGroup[this.index].level = level
-                            this.word.level=level
-                            this.changeColor()
+                            this.words[this.groupIndex*20+this.wordIndex].level=res.data.data
                         }else {
                             console.log("修改失败了")
                         }
                     })
                 },
-                changeColor(){
-                    let color = "";
-                    switch (this.word.level+""){
-                        case "0":color="rgb(0, 0, 0)";break;
-                        case "-1":color="rgb(0,255,0)";break;
-                        case "1":color="rgb(255,255,0)";break;
-                        case "2":color="rgb(255, 128, 0)";break;
-                        case "3":color="rgb(255,10,0)";break;
+                changeColor(level){
+                    let color = ""
+                    switch (level){
+                        case 0:color="rgb(0, 0, 0)";break;
+                        case -1:color="rgb(0,255,0)";break;
+                        case 1:color="rgb(255,255,0)";break;
+                        case 2:color="rgb(255, 128, 0)";break;
+                        case 3:color="rgb(255,10,0)";break;
                     }
                     document.getElementById("text1").style.color=color
                 }
