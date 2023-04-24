@@ -36,4 +36,20 @@ public interface RecordDao {
      */
     @Insert("insert into wordrecord(u_id,w_id,level) values(#{u_id},#{w_id},#{level})")
     int addRecord(String u_id,int w_id,int level);
+
+    /**
+     * 查询用户已学的（有记录的）单词数
+     * @param u_id
+     * @return
+     */
+    @Select("SELECT COUNT(u_id) as `learnedCount`  FROM wordrecord where u_id = #{u_id}")
+    int getLearnedCount(int u_id);
+
+    /**
+     * 查询用户已掌握的（有记录且掌握的）单词数
+     * @param u_id
+     * @return
+     */
+    @Select("SELECT COUNT(isgrasp) as `graspCount`  FROM wordrecord WHERE u_id = 1 and isgrasp = 1")
+    int getGraspCount(int u_id);
 }

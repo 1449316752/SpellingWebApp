@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/word")
@@ -59,5 +60,16 @@ public class wordListController {
             boolean b = recordService.addRecord(user, Integer.parseInt(w_id), Integer.parseInt(level));
             return new Result(b? Code.UPDATE_OK:Code.UPDATE_ERR,null,b?"这次新增了记录":"新增记录失败");
         }
+    }
+
+    @GetMapping("/count/{u_id}")
+    public Result getUserRecordCount(@PathVariable int u_id){
+        System.out.println(u_id+"查询count");
+        Map map = recordService.getLearnedAndGraspCount(u_id);
+        if (map == null){
+            return new Result(Code.GET_ERR,null,"获取了用户"+u_id+"的两个记录数");
+        }
+        return new Result(Code.GET_OK,map,"获取了用户"+u_id+"的两个记录数");
+
     }
 }

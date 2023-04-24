@@ -273,7 +273,7 @@
 
         #wordSelect{
             position: fixed;
-            left: 60    %;
+            left: 60%;
             top:15%
         }
 
@@ -502,9 +502,9 @@
                 <div>
                     <p class="name">{{user.username}} </p>
                 </div>
-                <div class="stats">
-                    <p class="flex flex-col">Articles<span class="state-value">34</span></p>
-                    <p class="flex">Followers<span class="state-value">455</span></p>
+                <div class="stats" v-if="isLogin">
+                    <p class="flex flex-col">已学<span class="state-value">{{userRecordCount.learnedCount}}</span></p>
+                    <p class="flex">已掌握<span class="state-value">{{userRecordCount.graspCount}}</span></p>
                 </div>
             </div>
         </div>
@@ -520,7 +520,7 @@
     </label>
     <div id="div_tool" v-show="tools.isShowTools">
         <label class="material-checkbox">
-            <input type="checkbox">
+            <input type="checkbox" v-model="tools.isBrainwash">
             <span class="checkmark"></span>
             洗脑模式
         </label>
@@ -563,6 +563,10 @@
                   u_id:0,
                   username:"NoLogin",
                   password:"",
+                },
+                userRecordCount:{
+                    learnedCount:0,
+                    graspCount:0
                 },
                 wordList:null,
                 wordListIndex:1,
@@ -616,7 +620,7 @@
                 })
                 this.wordIndex = 0;
                 this.getWordList();
-                this.getWords()
+                this.getWords();
             },
             watch:{
                 wordName(newValue,oldValue){
@@ -629,6 +633,7 @@
                 isLogin(newValue,oldValue){
                     if (newValue != null){
                         this.getWords();
+                        this.getLearnedAndGraspCount();
                     }
                 },
                 wordListIndex(newValue,OldValue){
@@ -689,6 +694,17 @@
                             this.wordList = res.data.data
                         }else {
                             alert("获取单词表失败")
+                        }
+                    })
+                },
+                getLearnedAndGraspCount(){
+                    console.log(this.user.u_id)
+                    axios.get("/word/count/"+this.user.u_id).then((res)=>{
+                        if (res.data.code === 20041){
+                            console.log(res.data.data)
+                            this.userRecordCount = res.data.data
+                        }else {
+                            console.log("获取记录统计失败")
                         }
                     })
                 },
