@@ -19,6 +19,11 @@ public class Result {
         this.msg = msg;
     }
 
+    public Result(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
     public Object getData() {
         return data;
     }
@@ -41,5 +46,24 @@ public class Result {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public static Result Success(Object o){
+        return new Result(Code.OK,o,"成功");
+    }
+
+    public static Result Success(Object o,String msg){
+        return new Result(Code.OK,o,msg);
+    }
+    public static Result Success(){
+        return new Result(Code.OK,null,"成功");
+    }
+
+    public static Result Error(String msg){
+        return new Result(Code.ERR,msg);
+    }
+
+    public static Result Error(){
+        return new Result(Code.ERR,"失败");
     }
 }

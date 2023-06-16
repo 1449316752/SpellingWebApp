@@ -4,6 +4,9 @@ public class User {
     private String u_id;
     private String username;
     private String password;
+    private String headPath;
+    private String email;
+    private String token;
 
     public User() {
     }
@@ -47,12 +50,38 @@ public class User {
         this.password = password;
     }
 
+    public String getHeadPath() {
+        return headPath;
+    }
+
+    public void setHeadPath(String headPath) {
+        this.headPath = headPath;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "u_id='" + u_id + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", headPath='" + headPath + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

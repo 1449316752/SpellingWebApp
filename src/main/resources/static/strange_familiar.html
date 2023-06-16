@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生词与熟词</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios-0.18.0.js"></script>
+    <script src="./js/element-ui.js"></script>
+    <script src="./js/tool.js"></script>
+    <link rel="stylesheet" href="./css/element-ui.css"/>
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div>
+        <el-tabs type="border-card">
+            <el-tab-pane>
+                <span slot="label"><i class="el-icon-warning"></i>生词表</span>
+                <div>
+                    <el-table v-infinite-scroll="load" :data="strangeWords" style="width: 100%;height: 600px;overflow: auto;" :row-class-name="tableRowClassName">
+                        <el-table-column prop="w_id" label="编号" width="60"></el-table-column>
+                        <el-table-column label="音频" align="center">
+                            <template slot-scope="scope">
+                                <i style="cursor: pointer;margin-right: 10px;margin-top: 3px;font-size: 25px;"
+                                   v-if="scope.row.word"
+                                   @click="play(scope.$index, scope.row)"
+                                   :class="icon == scope.row.word? 'el-icon-video-pause': 'el-icon-video-play'"
+                                   :style="icon == scope.row.word ? 'color: red;' : ''">
+                                    <audio :id="scope.row.word">
+                                        <source :src="getUrl(scope.row)" type="audio/mpeg" /></audio>
+                                </i>
+                                <div v-else>暂无音频</div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="word" label="英文" width="250">
+                            <template slot-scope="scope">
+                                <h2>{{scope.row.word}}</h2>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="tranCn" label="中文" width="200"></el-table-column>
+                        <el-table-column prop="level" label="level">
+                            <template slot-scope="scope">
+                                <el-tag v-if="scope.row.level===0" effect="dark">0</el-tag>
+                                <el-tag v-if="scope.row.level===-1" type="success" effect="dark">-1</el-tag>
+                                <el-tag v-if="scope.row.level===1" type="info" effect="dark">1</el-tag>
+                                <el-tag v-if="scope.row.level===2" type="warning" effect="dark">2</el-tag>
+                                <el-tag v-if="scope.row.level===3" type="danger" effect="dark">3</el-tag>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作">
+                            <template slot-scope="scope">
+<!--                                <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+                                <el-button size="mini" @click="setRecordIsgrasp(scope.row, 0)">移出</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </el-tab-pane>
+            <el-tab-pane>
+                <span slot="label"><i class="el-icon-star-off"></i>熟词表</span>
+                <div>
+
+                </div>
+            </el-tab-pane>
+        </el-tabs>
+    </div>
+</div>
+</body>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            user:{},
+            strangeWords:{},   //生词
+            familiarWords:{},  //熟词
+            audio: "",
+            icon: "el-icon-video-play",
+        },
+        computed:{
+            count : 0
+        },
+        created() {
+            this.user = JSON.parse(localStorage.getItem("user"))
+            this.getStrangeWords();
+            this.getFamiliarWords();
+        },
+        methods:{
+            getStrangeWords(){
+                const params = "u_id="+this.user.u_id+"&list_id=1"+"&type=1"
+                axios.get("/word/getForgetWords?"+params).then((res)=>{
+                    if (res.data.code = 10001){
+                        this.strangeWords = res.data.data
+                    }else {
+                        this.$notify({type: 'primary', message:res.data.msg})
+                    }
+                })
+            },
+            getFamiliarWords(){
+
+            },
+            setRecordIsgrasp(word, type){
+                const params = "w_id="+word.w_id+"&type="+type
+                axios.put("/word/setRecordIsgrasp?"+params,this.user).then((res)=>{
+                    if (res.data.code = 10001){
+                        this.$notify({type: 'primary', message:"移出成功"})
+                        this.getStrangeWords()
+                    }else {
+                        this.$notify({type: 'primary', message:res.data.msg})
+                    }
+                })
+            },
+            getUrl(row){
+                return "https://dict.youdao.com/dictvoice?audio="+row.word+"&amp;type=2"
+            },
+            play(index, row) {
+                if (
+                    this.audio !== "" &&
+                    this.audio !== document.getElementById(row.word)
+                ) {
+                    this.audio.pause();
+                }
+                this.audio = document.getElementById(row.word);
+                this.icon = row.word;
+                if (this.audio.paused) {
+                    this.audio.play();
+                    this.icon= row.word
+                } else {
+                    this.icon = ""
+                    this.audio.pause();
+                }
+            },
+            getToken(){
+                let config = {
+                    headers: {
+                        'Content-Type': "application/json",
+                        'token':(JSON.parse(localStorage.getItem("user"))).token }
+                }
+                return  config;
+            },
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {});
+            }
+        }
+
+    })
+</script>
+</html>

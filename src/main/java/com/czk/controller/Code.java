@@ -15,4 +15,7 @@ public class Code {
     public static final Integer SYSTEM_TIMEOUT_ERR = 50002;
     public static final Integer BUSINESS_ERR = 50003;
     public static final Integer SYSTEM_UNKNOW_ERR = 59999;
+
+    public static final Integer OK = 10001;
+    public static final Integer ERR = 10000;
 }

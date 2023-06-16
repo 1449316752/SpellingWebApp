@@ -52,4 +52,7 @@ public interface RecordDao {
      */
     @Select("SELECT COUNT(isgrasp) as `graspCount`  FROM wordrecord WHERE u_id = 1 and isgrasp = 1")
     int getGraspCount(int u_id);
+
+    @Update("update wordrecord set isgrasp=#{type} where w_id=#{w_id} and u_id=#{u_id}")
+    int setRecordIsgrasp(int u_id, int w_id, int type);
 }

@@ -7,7 +7,7 @@ import com.czk.domain.WordRecord;
 
 import java.util.List;
 
-public interface wordService {
+public interface WordService {
     List<Word> getWords(int list_id);
 
     List<Word> getWordsAndRecord(int u_id,int list_id);
@@ -15,4 +15,6 @@ public interface wordService {
     List<WordListType> getWordList();
 
     List<WordRecord> getWordRecords(User user);
+
+    List<Word> getForgetWords(int u_id,int list_id,int type);
 }

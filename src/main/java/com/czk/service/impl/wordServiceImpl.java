@@ -1,29 +1,21 @@
 package com.czk.service.impl;
 
-import com.czk.dao.wordsDao;
+import com.czk.dao.WordsDao;
 import com.czk.domain.User;
 import com.czk.domain.Word;
 import com.czk.domain.WordListType;
 import com.czk.domain.WordRecord;
-import com.czk.service.wordService;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.czk.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class wordServiceImpl implements wordService {
+public class wordServiceImpl implements WordService {
 
     @Autowired
-    private wordsDao wordsDao;
+    private WordsDao wordsDao;
     @Override
     public List<Word> getWords(int list_id) {
         return wordsDao.getWords(list_id);
@@ -42,6 +34,11 @@ public class wordServiceImpl implements wordService {
     @Override
     public List<WordRecord> getWordRecords(User user) {
         return wordsDao.getRecords(user);
+    }
+
+    @Override
+    public List<Word> getForgetWords(int u_id, int list_id, int type) {
+        return wordsDao.getForgetWords(u_id, list_id, type);
     }
 
 

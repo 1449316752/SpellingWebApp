@@ -1,415 +1,213 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>主页</title>
-    <script src="./js/vue.js"></script>
-    <script type="text/javascript" src="./js/jquery.min.js"></script>
-    <script src="./js/axios-0.18.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.2/particles.min.js"></script>
-    <script>
-        /*window.onload = function () {
-            //背景js-
-            Particles.init({
-                selector: '.background',
-                maxParticles: 100, //粒子数
-                speed: 0.5,
-                color: "#fae3d9",
-                connectParticles: true
-            });
-            //音频按钮js
-        };*/
-    </script>
+    <title>单词练习</title>
+
     <style>
-        html,body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(288deg, #FFB6B9 0%, #FFB6B9 35%, #FAE3D9 calc(35% + 1px), #FAE3D9 45%, #BBDED6 calc(45% + 1px), #BBDED6 65%, #61C0BF calc(65% + 1px), #61C0BF 100%);
+        #top {
+            color: #90929b;
         }
 
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .background {
-            position: absolute;
-            display: block;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        .card {
-            box-sizing: border-box;
-            width: 90%;
-            height: 90%;
-            background: rgb(169, 175, 174);
-            border: 1px solid white;
-            backdrop-filter: blur(6px);
-            border-radius: 35px;
-            text-align: center;
-            /*cursor: pointer;*/
-            transition: all 1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
-            font-weight: bolder;
-            color: black;
-            box-shadow: inset -18px 18px 19px #303030,
-            inset 18px -18px 19px #5e5e5e;
-        }
-        .card:hover {
-            border: 1px solid black;
-            /*transform: scale(3);*/
-        }
-        .card:active {
-            /*transform: scale(0.95) rotateZ(1.7deg);*/
-        }
-
-        #input1 { /*单词输入框*/
-            color: rgba(255, 255, 255, 0.919);
-            font-size: 40px;
-            outline: none;
-            background-color: rgba(0, 0, 0, 0);
-            caret-color: rgba(0, 0, 0, 0);
-            position: absolute;
-            z-index: 2;
-            width: 30%;
-        }
-        #input2 { /*单词输入框提示*/
-            color: rgb(255, 255, 255);
-            font-size: 40px;
-            outline: none;
-            background-color: rgba(0, 0, 0, 0);
-            caret-color: rgba(0, 0, 0, 0);
-            position: absolute;
+        #a2 {
+            width: 100%;
+            height: 5%;
+            float: left;
+            margin-bottom: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            margin-block: 5px;
+            box-shadow: 0px 0px 1500px 0px #292a2c;
             z-index: 1;
-            width: 30%;
-        }
-        #text1{ /*序号、英文单词、中文显示*/
-            height: 10%;
-            font-size: 40px;
-            position: relative;
-            display: inherit;
-            left: 0%;
-            top: -10%;
-            z-index: 2;
-        }
-        #div_audio{ /*音频播放按钮*/
-            z-index: 2;
-        }
-        #img_button{
-            width: 35px;
-            height: 35px;
-            position: fixed;
-            left: 66%;
-            top: 48%;
-            z-index:2;
         }
 
-        .container2{ /*登录框*/
-            z-index: 4;
+        #aa1, #aa2 {
+            width: 50px;
+            height: 5%;
+            float: left;
+            margin-right: 10px;
+            margin-left: 10px;
+            border-radius: 5px 5px 5px 5px;
+            box-shadow: 0px 0px 20px 0px #2d2c2c;
         }
-        .card2 {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 500px;
-            width: 500px;
-            flex-direction: column;
-            gap: 35px;
-            background: #379c97;
-            box-shadow: 16px 16px 32px #c8c8c8,
-            -16px -16px 32px #fefefe;
-            border-radius: 8px;
+        #aa2 {
+            margin-right: 10px;
+            float: right;
         }
-        .login {
-            color: #000;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: block;
-            font-weight: bold;
+
+        #aa1 a {
+            font-size: larger;
+            width: 10%;
+            height: 5%;
+            color: #6495ED;
+            line-height: 42px;
+            text-decoration: none;
+        }
+        #aa2 img{
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+        }
+
+
+        #tab1 {
+            float: left;
+            width: 250px;
+            height: 750px;
+            text-align: left;
+            margin-top: 1%;
+            border: 1px solid #ffffff;
+            background: #292a2c;
+            margin-left: 5px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 35px 0px #DDDDDD;
+        }
+
+        #tab2 {
+            float: left;
+            width: 100%;
+            height: 170px;
+            text-align: center;
+            border-bottom: 1px solid #000000;
+            color: #DDDDDD;
+            border-radius: 10px;
+        }
+
+        #t2 tr th {
+            height: 30px;
             font-size: x-large;
         }
-        .inputBox {
-            position: relative;
-            width: 250px;
+
+        ul, li {
+            list-style-type: none;
         }
-        .inputBox input {
+
+        a {
+            color: #6495ED;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #bd0a01;
+            text-decoration: underline;
+        }
+
+
+        .treebox {
             width: 100%;
-            padding: 10px;
-            outline: none;
-            border: none;
-            color: #000;
-            font-size: 1em;
-            background: transparent;
-            border-left: 2px solid #000;
-            border-bottom: 2px solid #000;
-            transition: 0.1s;
-            border-bottom-left-radius: 8px;
-        }
-        .inputBox span {
-            margin-top: 5px;
-            position: absolute;
-            left: 0;
-            transform: translateY(-4px);
-            margin-left: 10px;
-            padding: 10px;
-            pointer-events: none;
-            font-size: 12px;
-            color: #000;
-            text-transform: uppercase;
-            transition: 0.5s;
-            letter-spacing: 3px;
-            border-radius: 8px;
-        }
-        .inputBox input:valid~span,
-        .inputBox input:focus~span {
-            transform: translateX(113px) translateY(-15px);
-            font-size: 0.8em;
-            padding: 5px 10px;
-            background: #000;
-            letter-spacing: 0.2em;
-            color: #fff;
-            border: 2px;
-        }
-        .inputBox input:valid,
-        .inputBox input:focus {
-            border: 2px solid #000;
-            border-radius: 8px;
-        }
-        .enter {
-            height: 40px;
-            width: 80px;
-            border-radius: 5px;
-            border: 2px solid #000;
-            cursor: pointer;
-            background-color: transparent;
-            transition: 0.5s;
-            text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 2px;
-            margin-bottom: 1em;
-        }
-        .enter:hover {
-            background-color: rgb(0, 0, 0);
-            color: white;
-        }
-
-        .burger { /*功能列表显示按钮*/
-            position: fixed;
-            left: 70%;
-            top: 15%;
-            width: 40px;
-            height: 30px;
-            background: transparent;
-            cursor: pointer;
-            display: block;
-            z-index: 2;
-        }
-        .burger input {
-            display: none;
-        }
-        .burger span {
-            display: block;
-            position: absolute;
-            height: 4px;
-            width: 100%;
-            background: #ffffff;
-            border-radius: 9px;
-            opacity: 1;
-            left: 0;
-            transform: rotate(0deg);
-            transition: .25s ease-in-out;
-        }
-        .burger span:nth-of-type(1) {
-            top: 0px;
-            transform-origin: left center;
-        }
-        .burger span:nth-of-type(2) {
-            top: 50%;
-            transform: translateY(-50%);
-            transform-origin: left center;
-        }
-        .burger span:nth-of-type(3) {
-            top: 100%;
-            transform-origin: left center;
-            transform: translateY(-100%);
-        }
-        .burger input:checked ~ span:nth-of-type(1) {
-            transform: rotate(45deg);
-            top: 0px;
-            left: 5px;
-        }
-        .burger input:checked ~ span:nth-of-type(2) {
-            width: 0%;
-            opacity: 0;
-        }
-        .burger input:checked ~ span:nth-of-type(3) {
-            transform: rotate(-45deg);
-            top: 28px;
-            left: 5px;
-        }
-
-        #div_tool{ /*功能列表框*/
-            width: 50%;
-            height: 15%;
-            position: fixed;
-            top: 10%;
-            border-radius: 29px;
-            background: #e8e8e8;
-            box-shadow:  -5px 5px 0px #b3b3b3,
-            5px -5px 0px #ffffff;
-        }
-
-        #listSelect{ /*切换单词组下拉列表*/
-            position: fixed;
-            left: 45%;
-            top:15%
-        }
-
-        #wordSelect{
-            position: fixed;
-            left: 60%;
-            top:15%
-        }
-
-        .material-checkbox { /*洗脑功能复选框*/
-            background-color: #fefefe;
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            color: #777777;
-            cursor: pointer;
+            margin: 0px auto;
+            background-color: #494949;
             border-radius: 10px;
-            position: fixed;
-            top: 15%;
-            left: 26%;
-            width:110px;
-            height: 30px;
         }
-        .material-checkbox input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
+
+        .menu {
+            overflow: hidden;
+            border-color: #ddd;
+            border-style: solid;
+            border-width: 0 1px 1px;
         }
-        .checkmark {
+
+        /*第一层*/
+        .menu li.level1 > a {
+            display: block;
+            height: 47px;
+            line-height: 47px;
+            color: white;
+            padding-left: 50px;
+            border-bottom: 1px solid #000;
+            font-size: 15px;
             position: relative;
-            display: inline-block;
+            transition: all .5s ease 0s;
+        }
+
+
+        .menu li.level1 a:hover {
+            text-decoration: none;
+            background: -webkit-linear-gradient(left, #90929b, #292a2c); /* border: 2px solid #000000; */
+        }
+
+        .menu li.level1 a.current {
+            background: -webkit-linear-gradient(top, #7e7b7b, #292a2c);
+        }
+
+        /*============修饰图标*/
+        .ico {
             width: 20px;
             height: 20px;
-            margin-right: 12px;
-            border: 2px solid #454B00;
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
-        .material-checkbox input[type="checkbox"]:checked ~ .checkmark:after {
-            content: "";
+            display: block;
             position: absolute;
-            top: 2px;
-            left: 6px;
-            width: 4px;
-            height: 10px;
-            border: solid black;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
+            left: 20px;
+            top: 13px;
+            background-repeat: no-repeat;
+            background-image: url(../images/ico1.png);
         }
 
-        #checklist { /*序号、单词、中文显示复选框*/
-            --text: #414856;
-            --check: #4f29f0;
-            --disabled: #c3c8de;
-            width: 8%;
-            height: 10%;
-            background: #fff;
-            border-radius: 10px;
-            position: fixed;
-            top: 10%;
-            left: 35%;
-            padding: 15px 5px;
-            display: grid;
-            grid-template-columns: 30px auto;
-            align-items: center;
-            justify-content: center;
-        }
-        #checklist input[type="checkbox"] {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            position: relative;
-            height: 11px;
-            width: 10px;
-            outline: none;
-            border: 0;
-            cursor: pointer;
-            display: grid;
-            align-items: center;
-            margin: 0 20px 0 0;
-        }
-        #checklist input[type="checkbox"]::before, #checklist input[type="checkbox"]::after {
-            content: "";
+        /*============小箭头*/
+        .level1 i {
+            width: 20px;
+            height: 10px;
+            background-image: url(../images/arrow.png);
+            background-repeat: no-repeat;
+            display: block;
             position: absolute;
-            height: 2px;
-            top: auto;
-            background: var(--check);
-            border-radius: 2px;
+            right: 20px;
+            top: 20px;
         }
-        #checklist input[type="checkbox"]::before {
-            width: 0px;
-            right: 60%;
-            transform-origin: right bottom;
+
+        .level1 i.down {
+            background-position: 0 -10px;
+            border-radius: 10px;
         }
-        #checklist input[type="checkbox"]::after {
-            width: 0px;
-            left: 40%;
-            transform-origin: left bottom;
+
+        .ico1 {
+            background-position: 0 0;
         }
-        #checklist input[type="checkbox"]:checked::before {
-            animation: check-01 0.4s ease forwards;
+
+        .ico2 {
+            background-position: 0 -20px;
         }
-        #checklist input[type="checkbox"]:checked::after {
-            animation: check-02 0.4s ease forwards;
+
+        .ico3 {
+            background-position: 0 -40px;
         }
-        #checklist input[type="checkbox"]:checked + label {
-            color: var(--disabled);
-            animation: move 0.3s ease 0.1s forwards;
+
+        .ico4 {
+            background-position: 0 -60px;
         }
-        @keyframes check-01 {
-            0% {
-                width: 4px;
-                top: auto;
-                transform: rotate(0);
-            }
-            50% {
-                width: 0px;
-                top: auto;
-                transform: rotate(0);
-            }
-            100% {
-                width: 5px;
-                top: 8px;
-                transform: rotate(45deg);
-            }
+
+        .ico5 {
+            background-position: 0 -80px;
         }
-        @keyframes check-02 {
-            0% {
-                width: 4px;
-                top: auto;
-                transform: rotate(0);
-            }
-            50% {
-                width: 0px;
-                top: auto;
-                transform: rotate(0);
-            }
-            100% {
-                width: 10px;
-                top: 8px;
-                transform: rotate(-45deg);
-            }
+
+        /*第二层*/
+        .menu li ul {
+            overflow: hidden;
+        }
+
+
+        .menu li ul.level2 {
+            display: none;
+            background: #90929b;
+        }
+
+        .menu li ul.level2 li a {
+            display: block;
+            height: 45px;
+            line-height: 45px;
+            color: white;
+            text-indent: 60px;
+            /*border-bottom: 1px solid #ddd; */
+            font-size: 17px;
+            transition: all 1s ease 0s;
+        }
+
+        #zhu {
+            width: 82%;
+            height: 750px;
+            float: left;
+            margin-left: 0.5%;
+            box-shadow: 0px 0px 35px 0px #DDDDDD;
+            z-index: 0;
         }
 
         .card3 {/*用户显示框*/
@@ -417,9 +215,9 @@
             border-radius: 1rem;
             background-color: rgba(31, 41, 55, 1);
             padding: 1rem;
-            position: fixed;
-            left: 1%;
-            top: 5%;
+            position:absolute;
+            top:60px;
+            right:10px;
         }
         .infos {
             display: flex;
@@ -488,266 +286,168 @@
             background-color: rgb(118, 36, 194);
             color: #fff;
         }
-
     </style>
 </head>
 <body>
-<!--<canvas class="background"></canvas>--><!--背景动画-->
-<div class="card" id="app">
-
-    <div class="card3" v-show="tools.isShowTools">
-        <div class="infos">
-            <div class="image"></div>
-            <div class="info">
-                <div>
-                    <p class="name">{{user.username}} </p>
-                </div>
-                <div class="stats" v-if="isLogin">
-                    <p class="flex flex-col">已学<span class="state-value">{{userRecordCount.learnedCount}}</span></p>
-                    <p class="flex">已掌握<span class="state-value">{{userRecordCount.graspCount}}</span></p>
+<div id="tabTop">
+    <div id="tab1">
+<!--        <div id="tab2">-->
+<!--        </div>-->
+        <div class="treebox">
+            <ul class="menu">
+                <li class="level1">
+                    <a href="#none"><em class="ico ico5"></em>学习模块<i class="down"></i></a>
+                    <ul class="level2">
+                        <li><a href="study.html" target="yem">学习</a></li>
+                        <li><a href="strange_familiar.html" target="yem">生词与熟词</a></li>
+                        <li><a href="userInfo.html" target="yem">账号设置</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="zhu">
+    <div id="a2">
+            <div id="aa1">
+                <a href="#" @click.pravent="showRouter(1)" v-if="isShowRouter"><span id="top"><b> <<< </b></span></a>
+                <a href="#" @click.pravent="showRouter(0)" v-if="!isShowRouter"><span id="top"><b> >>> </b></span></a>
+            </div>
+            <div id="aa2">
+<!--                <a href="#" id="btn"><span id="top"><b>个性化</b></span></a>-->
+                <img :src="headPath" id="headImage" @click="showUser()">
+            </div>
+        <div class="card3" v-show="isShowUser">
+            <div class="infos">
+                <div class="image"></div>
+                <div class="info">
+                    <div>
+                        <p class="name"> </p>
+                    </div>
+                    <div class="stats">
+                        <p class="flex flex-col">已学<span class="state-value"></span></p>
+                        <p class="flex">已掌握<span class="state-value"></span></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <button class="request" @click="goToLogin()" v-if="!isLogin">前往登录</button>
-        <button class="request" @click="goToLogout()" v-if="isLogin">退出登录</button>
-    </div>
-
-    <label class="burger" for="burger">
-        <input type="checkbox" id="burger" v-on:click="ShowTools()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
-    <div id="div_tool" v-show="tools.isShowTools">
-        <label class="material-checkbox">
-            <input type="checkbox" v-model="tools.isBrainwash">
-            <span class="checkmark"></span>
-            洗脑模式
-        </label>
-        <div id="checklist">
-            <input value="1" v-model="tools.isShowEng" name="r" type="checkbox" id="01">
-            <label for="01">英文</label>
-            <input value="2" v-model="tools.isShowCn" name="r" type="checkbox" id="02">
-            <label for="02">中文</label>
-            <input value="3" v-model="tools.isShowTip" name="r" type="checkbox" id="03">
-            <label for="03">提示</label>
-        </div>
-        <div id="listSelect">
-            切换单词本
-            <select v-model="wordListIndex">
-                <option v-for="list in wordList" :value="list.list_id">{{list.list_name}}</option>
-            </select>
-        </div>
-        <div id="wordSelect">
-            切换单词组
-            <select v-model="groupIndex">
-                <option v-for="i in wordsLength" :value="i-1">{{i}}</option>
-            </select>
+            <button class="request" @click="">前往登录</button>
+            <button class="request" @click="logout()">退出登录</button>
         </div>
     </div>
-
-    <div id="text1">{{word.w_id}} : <div v-show="tools.isShowEng">{{word.word}}</div><div v-show="!tools.isShowEng">_____</div> : <div v-show="tools.isShowCn">{{word.tranCn}}</div><div v-show="!tools.isShowCn">?????</div></div>
-    <div id="div_audio">
-        <audio id="audio1" autoplay preload="auto" v-bind:src="wordMedia"></audio>
-        <audio id="audio2" preload="auto" v-bind:src="tranCnMedia"></audio>
-        <img id="img_button" v-on:click="playMedia()" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAACE4AAAhOAFFljFgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAU5SURBVHgB7VpNUttIFH7dMsVUVp4TwJxg7KrZx5xgmBMgG5jiZwEsZwWcIMkiwVXYRnMCyG52YfapwjlByA1YpYBY/fJeGxOpu2U7tn7sKn8LkFstS5/7637vfS2ABRZYYIE5goCC0Wjs+MITf6ISdypUp0HQvIUMUYKC4PuHZVl6OKbDQ0T6KxBESazS0RpkiEII+/7Oqrf0eElEK9F2klsNMoaEnLH59/6GLIkbRKxAAciVcGNr9xUqFdBhGQpCLpLuS1heFjWqUWRO2N/aqUkQTLawUY0iU0k3tvaOiewHcEhYgOgCigByRiYjrCVcEhcIWHOdp9F+02mfHTa2dk6mSQU4tEHpvgI9uB03fqc+wlrCS+IDukIMwh3F2/pFu3kIU4J/VLn0cMMKolX/M6tpnOtSJby5vXegJYywap5jCasQq53zZgApQJbUevw+eNLY3LsYdd1ISeuMSH71Qcqhiw4ReklSrbnOsYRVuHwSBK/vIEsI9Ik0dNrv6kldhhLmuAnwQPLzYBTQ3UgShlOS8GtIGar3IhClhw1aAeKhjklv7X7qtM6c90yUdJ8sTD7XEG61hBNuPC1YLRetsyqp51/H6WOe467rnIR54YEpyPJDkISrWVc+DFKPTyq6MprLVIg457OTsETYgEnAEgY44ofIfL5GoL4t11lR0TYuRJ4GLgbnHBZCrMbmpJYnj1h+JAbwN3fXpcCK6pGKExTDz0Xk6k9JzjOkEAf07zrWBmNACA7s+ZPldUQKuKQnOOYKq06VVlLfoNW8RoMcDVRNJycR5F4e/iSi60hZUKXlkukAAsL3RhOF1Pv1aMNME6Z52DXbuBAxR20ADlVWoydfxq+fYYSiZy1GwKNWundGEJ52lqyNfH6mCQfn55yOssdlrB/iIGmUKSZ+in+Op7mzPoehvzLjG6O57Hlfa67+5AVa02Bzf39lcDzzhBmq94uVraGQTveEQqoVTcLHx18Hx3NBWIdEcy4LueLqGwq0wyd6z/KfC8JpYi4I60JAGDU2qi8wAeaCsJS2eyJQdZ19QVlz21v2Pv84P+PQo+sJy74JwxfXrv6IctVsa799+6yGmSbs+9sV9scsy4jczqTcngqG36OfzWxtpgnLpdKlTZYrN3Xq6s/JiGkeIor5IUzkHH42HCWViWah0P8O9X+sD8wwYvbNk8Xbbp9dJfUXUljlo1IT1MNQ0OaX9q8V1kGFR6MsXt5Yt7xwPdfjanA6HooScErRni+mL6pQMe40JmMgo4Bv0mm9O4WU0OmM9rF1IeHR5rrxhEooy+BzjjDapth40AtM3xBPrGYygH6TwFjcaK5fswti9XV9gbZL0KpQxgd5w7wNkmSVpokkOznsodOMT5zD/f0fnFya9IuzD0UPNPU+kgusINrauQGnnYyJL8cM3XnotJonNEqBTu2kvV8UAwd8BDMssKxfEekVMuSPIEVwCKIYa5eICFeddvMk6bqRe0tPv1QAY+Bp+9O1i3fY2N5dV99wLTVzXqqyuQXE8zYMl+tDL4MUwYpQold1+FA/JE7hA1KANuwi9+E1p906WxtlJ6eeeAx8KNtM0yhTsnsx7l7u0PsQMdpU/00BrvGPPO6ec6Zv4g2ReD9mK3HNK3q0meZ6ps+UaWqpJY7wV5LETbJ5IPNcOqDcV1utLtIFIJfigVdmnm9TxfWUkGu1xBLXxYBlrOeH3MtDLgZUD6tFSbyQenggcTNfF+5QlipGv62SIbo3H/+rVv74QqVomci/VyH80+1+LEzuCyywwAIzh++GoUPdUk5hZAAAAABJRU5ErkJggg==">
-    </div>
-    <input id="input1" v-on:keyup.space="playMedia()" type="text" v-model="wordName" v-on:keyup.enter="showNextWord()" v-on:keyup.up="upLevel(1)" v-on:keyup.down="upLevel(0)">
-    <input id="input2" type="text" v-show="tools.isShowTip" v-bind:placeholder="word.word">
+    <iframe src="study.html" width="97%" height="92%" style="margin-left: 1%" name="yem" border="0" scrolling="no" frameborder="0"></iframe>
 </div>
-    <script>
-        new Vue({
-            el:"#app",
-            data:{
-                user:{
-                  u_id:0,
-                  username:"NoLogin",
-                  password:"",
-                },
-                userRecordCount:{
-                    learnedCount:0,
-                    graspCount:0
-                },
-                wordList:null,
-                wordListIndex:1,
-                words: [{level:0}],
-                groupIndex:0,
-                wordName:"",
-                wordIndex:0,
-                tools:{
-                    isShowTools:true,
-                    isBrainwash:false,
-                    isShowEng:true,
-                    isShowCn:true,
-                    isShowTip:true
-                }
-
-            },
-            computed:{
-                isLogin:function () {
-                  return this.user.u_id !== 0
-                },
-                wordMedia:function (){
-                    return "https://dict.youdao.com/dictvoice?audio="+this.word.word+"&amp;type=2"
-                },
-                tranCnMedia:function (){
-                    return "https://dict.youdao.com/dictvoice?audio="+encodeURIComponent(this.word.tranCn)+"&le=zh";
-                },
-                wordsLength:function (){
-                    return Math.ceil(this.words.length/20)
-                },
-                wordLevel:function (){
-                    return this.word.level
-                },
-                wordGroup:function () {
-                    return this.words.slice(this.groupIndex*20,(this.groupIndex+1)*20)
-                },
-                word:function (){
-                    return this.wordGroup[this.wordIndex]
-                }
-            },
-            mounted(){
-                const audio1 = document.getElementById('audio1');
-                const audio2 = document.getElementById('audio2')
-                audio1.style.display = 'none';
-                audio2.style.display = 'none';
-            },
-            created(){
-                axios.get("/user/isLogin").then((res)=>{
-                    if (res.data.data !== null){
-                        this.user = res.data.data
-                    }
-                })
-                this.wordIndex = 0;
-                this.getWordList();
-                this.getWords();
-            },
-            watch:{
-                wordName(newValue,oldValue){
-                    if (newValue === null ) return
-                    const length = this.wordName.length
-                    if (this.word.word.substring(0,length) !== this.wordName){
-                        this.wordName = ""
-                    }
-                },
-                isLogin(newValue,oldValue){
-                    if (newValue != null){
-                        this.getWords();
-                        this.getLearnedAndGraspCount();
-                    }
-                },
-                wordListIndex(newValue,OldValue){
-                    this.getWords()
-                },
-                groupIndex(n,o){
-                    this.wordIndex = 0
-                },
-                wordLevel(n,o){
-                    this.changeColor(Number(this.wordLevel))
-                }
-            },
-
-            methods:{
-                goToLogin(){
-                    window.location.href = 'login.html'
-                },
-                goToLogout(){
-                    axios.get("/user/logout").then((res)=>{
-                        if (res.data.code === 20041){
-                            this.user.u_id = 0
-                            this.user.username = "NoLogin"
-                        }
-                    })
-                },
-                ShowTools(){
-                    this.tools.isShowTools = !this.tools.isShowTools
-                },
-                playMedia(){
-                    const audio1 = document.getElementById('audio1');
-                    const audio2 = document.getElementById('audio2');
-                    let i = this.tools.isBrainwash? 10 : 1
-                    for (let j = 0; j < i; j++) {
-                        setTimeout(() =>{
-                            if (audio1.paused) {
-                                if (!this.tools.isBrainwash && j !== 0) return
-                                audio1.play()
-                                setTimeout(() => audio2.play(), audio1.duration * 1000 + 100)
-                            }
-                        },(audio1.duration * 1000 + 200 + audio2.duration*1000)*j)
-                    }
-                },
-                getWords(){
-                    axios.get("/word"+"?u_id="+this.user.u_id+"&list_id="+this.wordListIndex).then((res)=>{
-                        console.log(res);
-                        if (res.data.code === 20041){
-                            this.words = res.data.data;
-                            this.groupIndex = 0;
-                            this.wordIndex = 0;
-                        }else {
-                            alert("获取单词失败")
-                        }
-                    })
-                },
-                getWordList(){
-                    axios.get("/word/wordlist").then((res)=>{
-                        if (res.data.code === 20041){
-                            this.wordList = res.data.data
-                        }else {
-                            alert("获取单词表失败")
-                        }
-                    })
-                },
-                getLearnedAndGraspCount(){
-                    console.log(this.user.u_id)
-                    axios.get("/word/count/"+this.user.u_id).then((res)=>{
-                        if (res.data.code === 20041){
-                            console.log(res.data.data)
-                            this.userRecordCount = res.data.data
-                        }else {
-                            console.log("获取记录统计失败")
-                        }
-                    })
-                },
-                showNextWord(){
-                    if (this.index === this.wordGroup.length-1) {
-                        console.log("最后一个了")
-                        return
-                    }
-                    this.wordIndex++;
-                    this.wordName = ""
-                },
-                upLevel(operate){
-                    if (!this.isLogin ) return
-                    let level
-                    if (operate === 1){
-                        level = Number(this.wordLevel) +1
-                    }else{
-                        level = Number(this.wordLevel) -1
-                    }
-                    console.log(level)
-                    const params = "w_id="+this.word.w_id+"&level="+ level
-                    axios.put("/word?"+params,this.user).then((res)=>{
-                        if (20031 === res.data.code){
-                            this.words[this.groupIndex*20+this.wordIndex].level=res.data.data
-                        }else {
-                            console.log("修改失败了")
-                        }
-                    })
-                },
-                changeColor(level){
-                    let color = ""
-                    switch (level){
-                        case 0:color="rgb(0, 0, 0)";break;
-                        case -1:color="rgb(0,255,0)";break;
-                        case 1:color="rgb(255,255,0)";break;
-                        case 2:color="rgb(255, 128, 0)";break;
-                        case 3:color="rgb(255,10,0)";break;
-                    }
-                    document.getElementById("text1").style.color=color
-                }
+<!-- 引入 jQuery -->
+<script src="./js/jquery.min.js"></script>
+<script src="./js/easing.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios-0.18.0.js"></script>
+<script>
+    //等待dom元素加载完毕.
+    $(function () {
+        $(".treebox .level1>a").click(function () {
+            $(this).addClass('current')   //给当前元素添加"current"样式
+                .find('i').addClass('down')   //小箭头向下样式
+                .parent().next().slideDown('slow', 'easeOutQuad')  //下一个元素显示
+                .parent().siblings().children('a').removeClass('current')//父元素的兄弟元素的子元素去除"current"样式
+                .find('i').removeClass('down').parent().next().slideUp('slow', 'easeOutQuad');//隐藏
+            return false; //阻止默认时间
+        });
+    })
+</script>
+<script>
+    let vm = new Vue({
+        el: '#a2',
+        data:{
+            user:{},
+            isShowRouter:true,
+            isShowUser:false
+        },
+        computed:{
+            headPath:function (){
+                if (this.user.headPath === null)
+                    return "http://localhost:8080/img/img.png"
+                else
+                    return "http://localhost:8080/user/download?name="+this.user.headPath
             }
-        })
-    </script>
-
+        },
+        created() {
+            this.user = JSON.parse(localStorage.getItem("user"))
+        },
+        mounted() {
+            window.addEventListener('storageEvent', event => {
+                console.log("触发storageEvent")
+                if(event.key === 'user') {
+                    this.user = JSON.parse(event.newValue)
+                    console.log(this.user)
+                }
+            })
+        },
+        methods: {
+            logout() {
+                axios.get("../user/logout").then((res) => {
+                    window.location.href = './login.html'
+                })
+            },
+            showRouter(flag){
+                const tab1 =  document.getElementById("tabTop")
+                const zhu =  document.getElementById("zhu")
+                if (flag === 1){
+                    tab1.style.display = "none"
+                    zhu.style.width = "100%"
+                    this.isShowRouter = false
+                }else {
+                    tab1.style.display = "block";
+                    zhu.style.width = "82%"
+                    this.isShowRouter = true
+                }
+            },
+            showUser(){
+                this.isShowUser = !this.isShowUser
+            },
+            getToken(){
+                let config = {
+                    headers: {'token':(JSON.parse(localStorage.getItem("user"))).token }
+                }
+                return  config;
+            }
+        }
+    })
+    let vm2 = new Vue({
+        el: '#tab2',
+        data: {
+            user: {
+                id: "",
+                newPassword: "",
+                password: "",
+                type: "",
+                user: "null"
+            }
+        },
+        mounted() {
+            this.user = JSON.parse(localStorage.getItem("user"))
+            console.log(this.user)
+        }
+    })
+</script>
+<script language="JavaScript">
+    function custom_close() {
+        if (confirm('确认要关闭页面吗？') == true) {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+        } else {
+        }
+    }
+</script>
+<script type="text/javascript">
+    var btn = document.getElementById("btn");
+    var body = document.getElementById("zhu");
+    let array = ["cadetblue", "#DCDCDC", "mistyrose", "white", "pink", "#DEB887", "coral", "#FFF"];
+    let index = 0;
+    btn.onclick = function () {
+        body.style.backgroundColor = array[index];
+        index = (index + 1) % array.length;
+    }
+</script>
 </body>
 </html>

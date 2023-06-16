@@ -3,12 +3,9 @@ package com.czk.controller;
 import com.czk.domain.User;
 import com.czk.domain.Word;
 import com.czk.domain.WordListType;
-import com.czk.domain.WordRecord;
-import com.czk.service.recordService;
-import com.czk.service.wordService;
-import jdk.nashorn.internal.objects.annotations.Getter;
+import com.czk.service.RecordService;
+import com.czk.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,13 +13,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/word")
-public class wordListController {
+public class WordListController {
 
     @Autowired
-    private wordService wordService;
+    private WordService wordService;
 
     @Autowired
-    private recordService recordService;
+    private RecordService recordService;
 
     /**
      * 获取单词本，并对有记录的单词添加记录
@@ -31,10 +28,10 @@ public class wordListController {
      */
     @GetMapping
     public Result getWords(@RequestParam int u_id,@RequestParam int list_id){
-        System.out.println("controller");
         List<Word> words = wordService.getWordsAndRecord(u_id,list_id);
         return new Result(Code.GET_OK,words,"获取单词本"+list_id+"成功");
     }
+
 
     @GetMapping("/wordlist")
     public Result getWordList(){
@@ -62,6 +59,11 @@ public class wordListController {
         }
     }
 
+    /**
+     * 目前弃用，获取用户的以学单词数和
+     * @param u_id
+     * @return
+     */
     @GetMapping("/count/{u_id}")
     public Result getUserRecordCount(@PathVariable int u_id){
         System.out.println(u_id+"查询count");
@@ -70,6 +72,41 @@ public class wordListController {
             return new Result(Code.GET_ERR,null,"获取了用户"+u_id+"的两个记录数");
         }
         return new Result(Code.GET_OK,map,"获取了用户"+u_id+"的两个记录数");
+    }
 
+    /**
+     * 查询单词本的同时获取用户的记录，并且只获取 有生词记录的 或 有忽略词记录的，（由type参数决定，1为生词 ，2为忽略词）
+     * @param u_id
+     * @param list_id
+     * @return
+     */
+    @GetMapping("/getForgetWords")
+    public Result getForgetWords(@RequestParam int u_id,@RequestParam int list_id,@RequestParam int type){
+        List<Word> wordList = wordService.getForgetWords(u_id, list_id, type);
+        if (wordList == null){
+            return Result.Success("","没有哦");
+        }
+        return Result.Success(wordList,type == 1 ? "获取生词成功":"获取忽略词成功");
+    }
+
+    /**
+     * 修改用户单词记录的，修改isgrasp值，也就是设置用户的单词为普通词、生词、忽略词
+     * @return
+     */
+    @PutMapping("/setRecordIsgrasp")
+    public Result setRecordIsgrasp(@RequestBody User user,@RequestParam int w_id,@RequestParam int type){
+        if (type != 0 && type != 1 && type != 2){
+            return Result.Error("出错了，不要乱搞");
+        }
+        boolean flag =  recordService.setRecordIsgrasp(Integer.parseInt(user.getU_id()), w_id, type);
+        if (flag){
+            return Result.Success("修改成功");
+        }
+        recordService.addRecord(user, w_id, 0);
+        flag =  recordService.setRecordIsgrasp(Integer.parseInt(user.getU_id()), w_id, type);
+        if (flag){
+            return Result.Success("修改成功");
+        }
+        return Result.Error("出错，可能是你乱搞");
     }
 }

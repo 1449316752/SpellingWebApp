@@ -3,17 +3,15 @@ package com.czk.service.impl;
 import com.czk.dao.RecordDao;
 import com.czk.domain.User;
 import com.czk.domain.WordRecord;
-import com.czk.service.recordService;
+import com.czk.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
-public class recordServiceImpl implements recordService {
+public class recordServiceImpl implements RecordService {
     @Autowired
     private RecordDao recordDao;
 
@@ -44,5 +42,10 @@ public class recordServiceImpl implements recordService {
         map.put("learnedCount",learnedCount);
         map.put("graspCount",graspCount);
         return map;
+    }
+
+    @Override
+    public boolean setRecordIsgrasp(int u_id, int w_id, int type) {
+        return recordDao.setRecordIsgrasp(u_id,w_id,type) == 1;
     }
 }

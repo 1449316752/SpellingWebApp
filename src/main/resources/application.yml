@@ -8,3 +8,20 @@ spring:
   mvc:
     servlet:
       load-on-startup: 1
+  mail:
+    host: smtp.qq.com
+    username: 1449316752@qq.com
+    password: qtndtlokgltgbaeb
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          auth: true
+          starttls:
+            enable: true
+            required: true
+      default-encoding: UTF-8
+
+properties:
+  basePath: D:\gzcx\IntelliJ IDEA U\SpellingWebApp\src\main\resources\static\img\
