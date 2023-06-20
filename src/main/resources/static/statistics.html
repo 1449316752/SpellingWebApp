@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+    <meta charset="UTF-8">
+    <title>学习统计</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios-0.18.0.js"></script>
+    <script src="./js/element-ui-2.15.13.js"></script>
+    <script src="./js/tool.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <link rel="stylesheet" href="./css/element-ui-2.15.13.css"/>
+    <style>
+        #app{
+            background-color: #fefefe;
+            border-radius: 10px;
+        }
+
+        #el-table {
+            height: 100px;
+            border-top: 10px;
+            border-radius: 10px;
+            background-color: #a0cfff;
+        }
+
+        #el-table-row {
+            margin-top: 25px;
+            height: 70px;
+            size: 50px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div>
+        <div id="el-table">
+            <el-row :gutter="20">
+                <el-col :span="6" id="el-table-row">
+                    <div>
+                        <el-statistic group-separator="," :precision="0" :value="nowdayStudyWordSum" title="今日学习单词数"></el-statistic>
+                    </div>
+                </el-col>
+                <el-col :span="6" id="el-table-row">
+                    <div>
+                        <el-statistic group-separator="," :precision="0" :value="recordCountSum" title="单词练习次数和"></el-statistic>
+                    </div>
+                </el-col>
+                <el-col :span="6" id="el-table-row">
+                    <div>
+                        <el-statistic group-separator="," :precision="0" :value="learnedCount" title="已学的单词数"></el-statistic>
+                    </div>
+                </el-col>
+                <el-col :span="6" id="el-table-row">
+                    <div>
+                        <el-statistic group-separator="," :precision="0" :value="learnedCountByIsgrasp" title="生词数"></el-statistic>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+    <div id="container" style="height: 600px"></div>
+</div>
+</body>
+<script>
+    let countLog,countLogX,countLogY;
+    new Vue({
+        el:'#app',
+        data:{
+            user:{},
+            nowdayStudyWordSum:null,
+            recordCountSum:null,
+            learnedCount:null,  //
+            learnedCountByIsgrasp:null
+        },
+        computed:{
+
+        },
+        created() {
+            this.user = JSON.parse(localStorage.getItem("user"))
+            this.getCountLogs();
+            this.getNowdayStudyWordSum();
+            this.getUserRecordCountSum();
+            this.getLearnedCount();
+            this.getLearnedCountByIsgrasp();
+        },
+        methods:{
+            getNowdayStudyWordSum(){
+                axios.get("/record/getNowdayStudyWordSum/"+this.user.u_id).then((res)=>{
+                    if (res.data.code === 10001){
+                        this.nowdayStudyWordSum = res.data.data
+                    }else {
+                        this.$notify({type: 'primary', message:res.data.msg})
+                    }
+                })
+            },
+            getUserRecordCountSum(){
+                axios.get("/record/getUserRecordCountSum/"+this.user.u_id).then((res)=>{
+                    if (res.data.code === 10001){
+                        this.recordCountSum = res.data.data
+                    }else {
+                        this.$notify({type: 'primary', message:res.data.msg})
+                    }
+                })
+            },
+            getLearnedCount(){
+                axios.get("/record/getLearnedCount/"+this.user.u_id).then((res)=>{
+                    if (res.data.code === 10001){
+                        this.learnedCount = res.data.data
+                    }else {
+                        this.$notify({type: 'primary', message:res.data.msg})
+                    }
+                })
+            },
+            getLearnedCountByIsgrasp(){
+                const params = "?u_id="+this.user.u_id+"&type=1"
+                axios.get("/record/getLearnedCountByIsgrasp"+params).then((res)=>{
+                    if (res.data.code === 10001){
+                        this.learnedCountByIsgrasp = res.data.data
+                    }else {
+                        this.$notify({type: 'primary', message:res.data.msg})
+                    }
+                })
+            },
+            getCountLogs(){
+                axios.get("/record/getCountLogs/"+this.user.u_id).then((res)=>{
+                    if (res.data.code === 10001){
+                        countLog = res.data.data
+                        countLogX = countLog.map((item)=>{
+                            return item.date.slice(5)
+                        })
+                        countLogY = countLog.map((item)=>{
+                            return item.wordCount
+                        })
+
+                        var dom = document.getElementById('container');
+                        var myChart = echarts.init(dom, 'dark', {
+                            renderer: 'canvas',
+                            useDirtyRect: false
+                        });
+                        var app = {};
+
+                        var option;
+
+                        option = {
+                            title: {
+                                text: '学习单词数记录'
+                            },
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                data: countLogX
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [
+                                {
+                                    data: countLogY,
+                                    type: 'line',
+                                    symbol: 'triangle',
+                                    symbolSize: 20,
+                                    lineStyle: {
+                                        color: '#5470C6',
+                                        width: 4,
+                                        type: 'dashed'
+                                    },
+                                    itemStyle: {
+                                        borderWidth: 3,
+                                        borderColor: '#EE6666',
+                                        color: 'yellow'
+                                    }
+                                },
+
+                            ]
+                        };
+                        if (option && typeof option === 'object') {
+                            myChart.setOption(option);
+                        }
+                        window.addEventListener('resize', myChart.resize);
+
+
+                    }else {
+                        this.$notify({type: 'primary', message:res.data.msg})
+                    }
+                })
+            }
+        }
+
+    })
+
+
+</script>
+</html>

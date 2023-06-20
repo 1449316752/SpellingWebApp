@@ -97,6 +97,9 @@ public class UserController {
 
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response){
+        if(name==null || "".equals(name)){
+            name = "img.png";
+        }
         try {//输入流，读取文件
             FileInputStream inputStream = new FileInputStream(basePath + name);
             //输出流，传出文件到浏览器
@@ -129,8 +132,7 @@ public class UserController {
         }
         if (StringUtils.isNotEmpty(email)) {
             //生成随机验证码
-            //String code = ValidateCodeUtils.generateValidateCode(4).toString();
-            String code = "1234";
+            String code = String.valueOf((int)(Math.random()*9000+1000));
             log.info("The email={}", email);
 
             //改用qq邮箱
@@ -140,7 +142,7 @@ public class UserController {
             mail.setSubject("注册系统");
             mail.setContent("你好，您正在拼写练习网注册账号，以下是您的登录验证码："+code+"  请在十分钟内使用");
             try {
-                //emailUtil.sendSimpleMail(mail);
+                emailUtil.sendSimpleMail(mail);
             } catch (Exception e) {
                 return Result.Error("发送失败");
             }
@@ -161,6 +163,7 @@ public class UserController {
         System.out.println(addUser);
         //注册的各项验证
         String code = (String) session.getAttribute(addUser.getEmail());
+        System.out.println("code = "+code);
         if (code == null){
             return Result.Error("请先获取验证码");
         }

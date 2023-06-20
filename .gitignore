@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/static/img/
+!/src/main/resources/static/img/img.png
+!/src/main/resources/static/img/defaultPicture.png

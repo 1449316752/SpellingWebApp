@@ -552,8 +552,37 @@
                 wordName(newValue,oldValue){
                     if (newValue === null ) return
                     const length = this.wordName.length
-                    if (this.word.word.substring(0,length) !== this.wordName){
-                        this.wordName = ""
+                    if (this.word.word === newValue){ //全部正确
+                        this.$message({
+                            type:'success',
+                            message:'正确',
+                            center:'true',
+                            duration:'500',
+                            offset:'400'
+                        });
+                        let input1 = document.getElementById("input1");
+                        input1.style.color = "lightgreen"
+                        setTimeout(()=>{
+                            input1.style.color = "rgba(255, 255, 255, 0.919)"
+                            this.wordName = ""
+                        },500)
+                        this.setRecordCount();
+                        return;
+                    }
+                    if (this.word.word.substring(0,length) !== this.wordName){ //有错误
+                        this.$message({
+                            type:'error',
+                            message:'错误',
+                            center:'true',
+                            duration:'500',
+                            offset:'400'
+                        });
+                        let input1 = document.getElementById("input1");
+                        input1.style.color = "red"
+                        setTimeout(()=>{
+                            input1.style.color = "rgba(255, 255, 255, 0.919)"
+                            this.wordName = ""
+                        },500)
                     }
                 },
                 isLogin(newValue,oldValue){
@@ -580,6 +609,13 @@
                         if (10001 === res.data.code){
                             this.$notify({type: 'primary', message:"设置成功"})
                         }else {
+                            this.$notify({type: 'primary', message:res.data.msg})
+                        }
+                    })
+                },
+                setRecordCount(){
+                    axios.put("/word/setRecordCount/"+this.word.w_id,this.user).then((res)=>{
+                        if (res.data.code !== 10001){
                             this.$notify({type: 'primary', message:res.data.msg})
                         }
                     })
@@ -632,10 +668,10 @@
                 },
                 getWordList(){
                     axios.get("/word/wordlist",this.getToken()).then((res)=>{
-                        if (res.data.code === 20041){
+                        if (res.data.code === 10001){
                             this.wordList = res.data.data
                         }else {
-                            alert("获取单词表失败")
+                            this.$notify({type: 'error', message:res.data.msg})
                         }
                     })
                 },
@@ -699,7 +735,9 @@
                     this.$message({
                         dangerouslyUseHTMLString: true,
                         message: '<strong>&nbsp;&nbsp;←&nbsp;→&nbsp;<i>按钮可控制显示的单词</i></strong>' +
-                            '<br/><strong>&nbsp;↑&nbsp;↓&nbsp;<i>按钮可设置单词的等级</i></strong>'
+                            '<br/><strong>&nbsp;↑&nbsp;↓&nbsp;<i>按钮可设置单词的等级</i></strong>',
+                        center: true,
+                        showClose: true
                     });
                 }
             }

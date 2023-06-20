@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -43,4 +44,26 @@ class SpellingWebAppApplicationTests {
 		System.out.println(map);
 	}
 
+	@Test
+	public void testGetRecordCouunt(){
+		Integer recordCount = recordService.getRecordCount(999, 1);
+		System.out.println("recordCount:" +recordCount);
+	}
+
+	@Test void testSetRecordUpdateTime(){
+		System.out.println(new Date(new java.util.Date().getTime()));
+	}
+
+	@Test void testgetNowdayStudyWordSum(){
+		Integer sum = recordService.getUserNowdayStudySum(1);
+		System.out.println(sum);
+	}
+
+	@Test void testgetUserRecordCountSum(){
+		System.out.println(recordService.getUserRecordCountSum(1));
+	}
+
+	@Test void testgetCountLogs(){
+		System.out.println(recordService.getCountLogs(1));
+	}
 }
