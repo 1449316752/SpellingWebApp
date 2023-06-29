@@ -53,27 +53,15 @@ public class WebConfiguration implements WebMvcConfigurer {
         List<String> excludePath = new ArrayList<>();
         //排除拦截，除了注册登录(此时还没token)，其他都拦截
         excludePath.add("/user/login");  //登录
-        excludePath.add("/user/isLogin");  //登录
         excludePath.add("/user/adminLogin");  //登录
         excludePath.add("/user/getCode");  //注册验证码
         excludePath.add("/user/addUser");  //注册
-        excludePath.add("/user/register");     //注册
-        //excludePath.add("/index.html");     //swagger
-        //excludePath.add("/study.html");     //swagger
-        //excludePath.add("/**");     //swagger
-        excludePath.add("/login.html");     //swagger
-        excludePath.add("/js/**");     //swagger
-        excludePath.add("/css/**");     //swagger
-        excludePath.add("/swagger-ui.html");     //swagger
-        excludePath.add("/swagger-resources/**");     //swagger
-        excludePath.add("/v2/api-docs");     //swagger
-        excludePath.add("/webjars/**");     //swagger
-//        excludePath.add("/static/**");  //静态资源
-//        excludePath.add("/assets/**");  //静态资源
+        excludePath.add("/login.html");    //登录页
+        excludePath.add("/js/**");
+        excludePath.add("/css/**");
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(excludePath);
         WebMvcConfigurer.super.addInterceptors(registry);
-
     }
 }

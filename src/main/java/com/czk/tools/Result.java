@@ -1,9 +1,11 @@
-package com.czk.controller;
+package com.czk.tools;
 
-public class Result {
-    private Integer code;
-    private Object data;
-    private String msg;
+import java.io.Serializable;
+
+public class Result  implements Serializable {
+    private Integer code = null;
+    private Object data = null;
+    private String msg = null;
 
     public Result() {
     }

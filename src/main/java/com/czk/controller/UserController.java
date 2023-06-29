@@ -3,9 +3,7 @@ package com.czk.controller;
 import com.czk.domain.User;
 import com.czk.entity.AddUserType;
 import com.czk.service.UserService;
-import com.czk.tools.EmailUtil;
-import com.czk.tools.Mail;
-import com.czk.tools.TokenUtils;
+import com.czk.tools.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.UUID;
 
 @Slf4j
@@ -41,7 +40,7 @@ public class UserController {
     public Result login(HttpSession session, @RequestBody User user){
         User theUser = userService.selectUser(user);
         if (theUser != null) {
-            String token= TokenUtils.sign(user);
+            String token= TokenUtils.sign(theUser);
             theUser.setToken(token);
             session.setAttribute("token",token);
             session.setAttribute("user",theUser);
@@ -97,14 +96,13 @@ public class UserController {
 
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response){
-        if(name==null || "".equals(name)){
+        if(name==null || "".equals(name)){//空为使用默认图片
             name = "img.png";
         }
         try {//输入流，读取文件
             FileInputStream inputStream = new FileInputStream(basePath + name);
             //输出流，传出文件到浏览器
             ServletOutputStream outputStream = response.getOutputStream();
-
             response.setContentType("image/jpeg");
 
             int len = 0;
@@ -116,7 +114,6 @@ public class UserController {
             //关闭资源
             outputStream.close();
             inputStream.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -200,7 +197,6 @@ public class UserController {
 
         @PutMapping("/changePassword")
     public Result changePassword(@RequestBody AddUserType addUser){
-        System.out.println(addUser);
         //注册的各项验证
         if (!addUser.getPassword().equals(addUser.getRePassword())){
             return Result.Error("密码不一致");

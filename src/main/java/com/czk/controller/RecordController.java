@@ -1,29 +1,13 @@
 package com.czk.controller;
 
 import com.czk.domain.CountLog;
-import com.czk.domain.User;
-import com.czk.entity.AddUserType;
 import com.czk.service.RecordService;
-import com.czk.service.UserService;
-import com.czk.tools.EmailUtil;
-import com.czk.tools.Mail;
-import com.czk.tools.TokenUtils;
+import com.czk.tools.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController

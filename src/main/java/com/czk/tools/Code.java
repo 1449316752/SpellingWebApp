@@ -1,4 +1,4 @@
-package com.czk.controller;
+package com.czk.tools;
 
 public class Code {
     public static final Integer SAVE_OK = 20011;

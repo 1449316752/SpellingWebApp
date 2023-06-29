@@ -31,7 +31,7 @@ public class TokenUtils {
                     //发行人
                     .withIssuer("auth0")
                     //存放数据
-                    .withClaim("username",user.getUsername())
+                    .withClaim("u_id",user.getU_id()).withClaim("username",user.getUsername())
                     //过期时间
                     .withExpiresAt(expireAt)
                     .sign(Algorithm.HMAC256(TOKEN_SECRET));
@@ -54,7 +54,7 @@ public class TokenUtils {
             JWTVerifier jwtVerifier=JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).withIssuer("auth0").build();
             DecodedJWT decodedJWT=jwtVerifier.verify(token);
             System.out.println("认证通过：");
-            System.out.println("username: " + decodedJWT.getClaim("username").asString());
+            System.out.println("u_id: " + decodedJWT.getClaim("u_id").asString()+"  /   username: "+decodedJWT.getClaim("username").asString());
             System.out.println("过期时间：      " + decodedJWT.getExpiresAt());
         } catch (IllegalArgumentException | JWTVerificationException e) {
             //抛出错误即为验证不通过

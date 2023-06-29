@@ -5,6 +5,8 @@ import com.czk.domain.Word;
 import com.czk.domain.WordListType;
 import com.czk.service.RecordService;
 import com.czk.service.WordService;
+import com.czk.tools.Code;
+import com.czk.tools.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,7 @@ public class WordListController {
      * @return
      */
     @GetMapping
-    public Result getWords(@RequestParam int u_id,@RequestParam int list_id){
+    public Result getWords(@RequestParam int u_id, @RequestParam int list_id){
         List<Word> words = wordService.getWordsAndRecord(u_id,list_id);
         return new Result(Code.GET_OK,words,"获取单词本"+list_id+"成功");
     }
